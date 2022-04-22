@@ -14,7 +14,6 @@ El frontend estará corriendo en [http://localhost:3000](http://localhost:3000)
 ## Ejecutar localmente
 
 ```bash
-cd recipelib-frontend
 npm run dev
 # or
 yarn dev
