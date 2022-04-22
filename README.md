@@ -27,3 +27,7 @@ Abrir [http://localhost:3000](http://localhost:3000) con el buscador para ver el
 ```bash
 npx husky install
 ```
+
+## VSC autocorrect
+
+Instalar extensiones de eslint y prittier
