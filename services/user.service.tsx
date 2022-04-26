@@ -1,7 +1,7 @@
 import UserDto from '../dtos/user.dto'
 import BaseService from './base.service'
 
-const pathPrefix = 'user/'
+const pathPrefix = 'users/'
 
 export default async function singUp(userData: UserDto) {
   return BaseService.request(

@@ -3,7 +3,9 @@ import NewUserForm from '../../components/users/NewUserForm'
 import UserDto from '../../dtos/user.dto'
 import singup from '../../services/user.service'
 
-export default class RegisterPage extends React.Component {
+export default class RegisterPage extends React.Component<{
+  isMobile: boolean
+}> {
   async onAddUserHandler(enteredUserData: UserDto) {
     try {
       await singup(enteredUserData)
@@ -12,6 +14,11 @@ export default class RegisterPage extends React.Component {
     }
   }
   render() {
-    return <NewUserForm onAddUser={this.onAddUserHandler} />
+    return (
+      <NewUserForm
+        onAddUser={this.onAddUserHandler}
+        isMobile={this.props.isMobile}
+      />
+    )
   }
 }

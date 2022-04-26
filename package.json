@@ -13,11 +13,13 @@
     "next": "latest",
     "react": "^17.0.2",
     "react-hook-form": "^7.30.0",
+    "ua-parser-js": "^1.0.2",
     "yup": "^0.32.11"
   },
   "devDependencies": {
     "@types/node": "^17.0.25",
     "@types/react": "^18.0.6",
+    "@types/ua-parser-js": "^0.7.36",
     "@typescript-eslint/eslint-plugin": "^5.20.0",
     "eslint": "^8.13.0",
     "eslint-config-next": "^12.1.5",
