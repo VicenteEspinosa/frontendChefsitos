@@ -4,13 +4,25 @@ import Layout from '../components/layout/Layout'
 import './globals.css'
 import { UAParser } from 'ua-parser-js'
 import { AppContextType } from 'next/dist/shared/lib/utils'
-import { Router } from 'next/router'
+import { Router, useRouter } from 'next/router'
+import { UserService } from '../services/user.service'
+import { useState } from 'react'
+import AuthContext from '../contexts/auth-context'
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const [loggedIn, setLoggedIn] = useState(UserService.isLogged())
+  const router = useRouter()
+  async function onLogout() {
+    await UserService.signout()
+    setLoggedIn(false)
+    router.push('/logout')
+  }
   return (
-    <Layout isMobile={pageProps.isMobile}>
-      <Component {...pageProps} />
-    </Layout>
+    <AuthContext.Provider value={{ loggedIn, setLoggedIn }}>
+      <Layout isMobile={pageProps.isMobile} onLogout={onLogout}>
+        <Component {...pageProps} />
+      </Layout>
+    </AuthContext.Provider>
   )
 }
 

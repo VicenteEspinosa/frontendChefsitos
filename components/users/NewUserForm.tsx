@@ -3,7 +3,7 @@ import classes from './NewUserForm.module.css'
 import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
-import UserDto from '../../dtos/user.dto'
+import { NewUserDto } from '../../dtos/user.dto'
 
 type UserSubmitForm = {
   username: string
@@ -18,7 +18,7 @@ type UserSubmitForm = {
 
 export default function NewUserForm(props: {
   isMobile: boolean
-  onAddUser: (data: UserDto) => void
+  onAddUser: (data: NewUserDto) => void
 }) {
   const validationSchema = Yup.object().shape({
     username: Yup.string().required('El nombre de usuario es requerido'),

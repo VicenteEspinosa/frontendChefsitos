@@ -1,21 +1,38 @@
 import classes from './MainNavigation.module.css'
 import Link from 'next/link'
+import AuthContext from '../../contexts/auth-context'
 
-function MainNavigation(props: { isMobile: boolean }) {
+function MainNavigation(props: { isMobile: boolean; onLogout: () => void }) {
+  function onLogoutClick() {
+    props.onLogout()
+  }
   return (
-    <header className={classes.header}>
-      <div className={classes.logo}>RecipeLib</div>
-      <nav hidden={props.isMobile}>
-        <ul>
-          <li>
-            <Link href="/">Iniciar sesión</Link>
-          </li>
-          <li>
-            <Link href="/">Registrase</Link>
-          </li>
-        </ul>
-      </nav>
-    </header>
+    <AuthContext.Consumer>
+      {({ loggedIn }) => (
+        <header className={classes.header}>
+          <div className={classes.logo}>RecipeLib</div>
+          <nav>
+            {!props.isMobile && !loggedIn && (
+              <ul>
+                <li>
+                  <Link href="/login">Iniciar sesión</Link>
+                </li>
+                <li>
+                  <Link href="/register">Registrarse</Link>
+                </li>
+              </ul>
+            )}
+            {loggedIn && (
+              <ul>
+                <li>
+                  <a onClick={onLogoutClick}>Cerrar sesión</a>
+                </li>
+              </ul>
+            )}
+          </nav>
+        </header>
+      )}
+    </AuthContext.Consumer>
   )
 }
 

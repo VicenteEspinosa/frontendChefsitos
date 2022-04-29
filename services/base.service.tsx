@@ -9,13 +9,17 @@ async function request(
   method: RequestMethod,
   body: string
 ) {
-  return fetch(`http://localhost:8000/api/${pathPrefix}${pathSufix}`, {
-    body: body,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: method,
-  })
+  const response = await fetch(
+    `http://localhost:8000/api/${pathPrefix}${pathSufix}`,
+    {
+      body: body,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: method,
+    }
+  )
+  return response.json()
 }
 
 Request
