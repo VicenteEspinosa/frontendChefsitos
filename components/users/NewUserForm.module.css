@@ -52,3 +52,11 @@
   width: 50%;
   float: left;
 }
+
+.link {
+  text-align: right;
+}
+
+.link p {
+  margin: 0 25px;
+}

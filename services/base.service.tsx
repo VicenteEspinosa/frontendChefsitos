@@ -1,3 +1,5 @@
+import { ApiError } from '../infrastructure/errors/api.error'
+
 enum RequestMethod {
   Get = 'GET',
   Post = 'POST',
@@ -19,7 +21,11 @@ async function request(
       method: method,
     }
   )
-  return response.json()
+  const resJson = await response.json()
+  if (!response.ok) {
+    throw new ApiError(resJson)
+  }
+  return resJson
 }
 
 Request

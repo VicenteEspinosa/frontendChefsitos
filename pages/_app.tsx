@@ -15,7 +15,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   async function onLogout() {
     await UserService.signout()
     setLoggedIn(false)
-    router.push('/logout')
+    router.push('/login')
   }
   return (
     <AuthContext.Provider value={{ loggedIn, setLoggedIn }}>
