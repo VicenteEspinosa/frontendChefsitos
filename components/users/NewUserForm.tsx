@@ -4,6 +4,7 @@ import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import { NewUserDto } from '../../dtos/user.dto'
+import Alert from '../ui/Alert'
 
 type UserSubmitForm = {
   username: string
@@ -19,6 +20,7 @@ type UserSubmitForm = {
 export default function NewUserForm(props: {
   isMobile: boolean
   onAddUser: (data: NewUserDto) => void
+  showAlert: boolean
 }) {
   const validationSchema = Yup.object().shape({
     username: Yup.string().required('El nombre de usuario es requerido'),
@@ -63,6 +65,11 @@ export default function NewUserForm(props: {
 
   return (
     <Card>
+      <Alert
+        class="warning"
+        message="El nombre de usuario ya está en uso, por favor elija otro"
+        hidden={!props.showAlert}
+      />
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={props.isMobile ? '' : classes.left}>
           <div className={classes.control}>

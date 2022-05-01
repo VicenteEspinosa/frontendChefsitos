@@ -4,9 +4,11 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import classes from './NewUserForm.module.css'
 import Card from '../ui/Card'
+import Alert from '../ui/Alert'
 
 export default function LogUserForm(props: {
   onLogUser: (data: LogUserDto) => void
+  entityNotFound: boolean
 }) {
   const validationSchema = Yup.object().shape({
     username: Yup.string().required('El nombre de usuario es requerido'),
@@ -28,6 +30,11 @@ export default function LogUserForm(props: {
 
   return (
     <Card>
+      <Alert
+        hidden={!props.entityNotFound}
+        class="warning"
+        message="Tus credenciales están erroneas"
+      />
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={classes.control}>
           <label>Nombre de usuario</label>
