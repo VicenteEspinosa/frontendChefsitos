@@ -5,3 +5,7 @@ body {
 .warning {
   background-color: #ffeb3b;
 }
+
+a {
+  cursor: pointer;
+}
