@@ -1,0 +1,11 @@
+body {
+  margin: 0;
+}
+
+.warning {
+  background-color: #ffeb3b;
+}
+
+a {
+  cursor: pointer;
+}

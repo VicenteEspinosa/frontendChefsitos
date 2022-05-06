@@ -9,13 +9,18 @@
     "lint": "next lint ."
   },
   "dependencies": {
+    "@hookform/resolvers": "^2.8.8",
     "next": "latest",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-hook-form": "^7.30.0",
+    "react-responsive": "^9.0.0-beta.6",
+    "ua-parser-js": "^1.0.2",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@types/node": "^17.0.25",
     "@types/react": "^18.0.6",
+    "@types/ua-parser-js": "^0.7.36",
     "@typescript-eslint/eslint-plugin": "^5.20.0",
     "eslint": "^8.13.0",
     "eslint-config-next": "^12.1.5",
