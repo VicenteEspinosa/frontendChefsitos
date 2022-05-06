@@ -13,8 +13,8 @@ export default function LoginPage(props: { isMobile: boolean }) {
   const authContext = useContext(AuthContext)
   async function onLogUserHandler(enteredUserData: LogUserDto) {
     try {
-      await UserService.signin(enteredUserData)
-      authContext.setLoggedIn!(true)
+      const user = await UserService.signin(enteredUserData)
+      authContext.setUser!(user)
       router.push('/')
     } catch (error) {
       if (error instanceof ApiError) {
@@ -26,12 +26,23 @@ export default function LoginPage(props: { isMobile: boolean }) {
       throw error
     }
   }
+  if (authContext.user) {
+    router.push('/')
+  }
 
   return (
-    <LogUserForm
-      onLogUser={onLogUserHandler}
-      entityNotFound={entityNotFound}
-      isMobile={props.isMobile}
-    />
+    <AuthContext.Consumer>
+      {({ user }) => (
+        <div>
+          {!user && (
+            <LogUserForm
+              onLogUser={onLogUserHandler}
+              entityNotFound={entityNotFound}
+              isMobile={props.isMobile}
+            />
+          )}
+        </div>
+      )}
+    </AuthContext.Consumer>
   )
 }

@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import NewUserForm from '../../components/users/NewUserForm'
+import AuthContext from '../../contexts/auth-context'
 import { NewUserDto } from '../../dtos/user.dto'
 import { ApiError } from '../../infrastructure/errors/api.error'
 import { InternalCode } from '../../infrastructure/errors/internal-codes'
@@ -30,15 +31,23 @@ export default function RegisterPage(props: { isMobile: boolean }) {
       throw error
     }
   }
-  if (UserService.isLogged()) {
+  if (UserService.userValue) {
     router.push('/')
   }
 
   return (
-    <NewUserForm
-      onAddUser={onAddUserHandler}
-      isMobile={props.isMobile}
-      showAlert={usernameIsForbidden}
-    />
+    <AuthContext.Consumer>
+      {({ user }) => (
+        <div>
+          {!user && (
+            <NewUserForm
+              onAddUser={onAddUserHandler}
+              isMobile={props.isMobile}
+              showAlert={usernameIsForbidden}
+            />
+          )}
+        </div>
+      )}
+    </AuthContext.Consumer>
   )
 }

@@ -8,11 +8,11 @@ function MainNavigation(props: { isMobile: boolean; onLogout: () => void }) {
   }
   return (
     <AuthContext.Consumer>
-      {({ loggedIn }) => (
+      {({ user }) => (
         <header className={classes.header}>
           <div className={classes.logo}>RecipeLib</div>
           <nav>
-            {!props.isMobile && !loggedIn && (
+            {!props.isMobile && !user && (
               <ul>
                 <li>
                   <Link href="/login">Iniciar sesión</Link>
@@ -22,7 +22,7 @@ function MainNavigation(props: { isMobile: boolean; onLogout: () => void }) {
                 </li>
               </ul>
             )}
-            {loggedIn && (
+            {user && (
               <ul>
                 <li>
                   <a onClick={onLogoutClick}>Cerrar sesión</a>

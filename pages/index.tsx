@@ -1,22 +1,20 @@
 import { useRouter } from 'next/router'
 import { useContext, useEffect } from 'react'
 import AuthContext from '../contexts/auth-context'
-import { UserService } from '../services/user.service'
 
 export default function Home() {
   const authContext = useContext(AuthContext)
   const router = useRouter()
-  const user = UserService.userValue
   useEffect(() => {
-    if (!authContext.loggedIn) {
+    if (!authContext.user) {
       router.push('/login')
     }
   })
   return (
     <AuthContext.Consumer>
-      {({ loggedIn }) => (
+      {({ user }) => (
         <div>
-          {loggedIn && (
+          {user && (
             <section>
               <h1>Bienvenido {user.first_name} a RecipeLib</h1>
               <p>

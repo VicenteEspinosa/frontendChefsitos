@@ -8,16 +8,16 @@ import AuthContext from '../contexts/auth-context'
 import { useMediaQuery } from 'react-responsive'
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [loggedIn, setLoggedIn] = useState(UserService.isLogged())
+  const [user, setUser] = useState(UserService.userValue)
   pageProps.isMobile = useMediaQuery({ query: `(max-width: 600px)` })
   const router = useRouter()
   async function onLogout() {
     await UserService.signout()
-    setLoggedIn(false)
+    setUser(undefined)
     router.push('/login')
   }
   return (
-    <AuthContext.Provider value={{ loggedIn, setLoggedIn }}>
+    <AuthContext.Provider value={{ user, setUser }}>
       <Layout isMobile={pageProps.isMobile} onLogout={onLogout}>
         <Component {...pageProps} />
       </Layout>

@@ -21,15 +21,12 @@ async function signin(logUserData: LogUserDto) {
     JSON.stringify(logUserData)
   )
   localStorage.setItem('user', JSON.stringify(user))
+  return user
 }
 
 const userSubject = new BehaviorSubject(
   process.browser && JSON.parse(localStorage.getItem('user') || '{}')
 )
-
-function isLogged() {
-  return process.browser && localStorage.getItem('user') ? true : false
-}
 
 async function signout() {
   await BaseService.request(
@@ -45,10 +42,11 @@ async function signout() {
 
 export const UserService = {
   get userValue() {
-    return userSubject.value
+    return Object.keys(userSubject.value).length !== 0
+      ? userSubject.value
+      : undefined
   },
   signup,
   signin,
-  isLogged,
   signout,
 }
