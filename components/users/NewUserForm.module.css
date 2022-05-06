@@ -53,6 +53,10 @@
   float: left;
 }
 
+.algo {
+  width: 100%;
+}
+
 .link {
   text-align: right;
 }

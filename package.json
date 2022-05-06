@@ -13,6 +13,7 @@
     "next": "latest",
     "react": "^17.0.2",
     "react-hook-form": "^7.30.0",
+    "react-responsive": "^9.0.0-beta.6",
     "ua-parser-js": "^1.0.2",
     "yup": "^0.32.11"
   },

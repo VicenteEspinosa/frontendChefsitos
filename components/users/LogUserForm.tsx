@@ -5,6 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import classes from './NewUserForm.module.css'
 import Card from '../ui/Card'
 import Alert from '../ui/Alert'
+import Link from 'next/link'
 
 export default function LogUserForm(props: {
   onLogUser: (data: LogUserDto) => void
@@ -57,7 +58,7 @@ export default function LogUserForm(props: {
         {props.isMobile && (
           <div className={classes.link}>
             <p> o </p>
-            <a href="/register">Registrarse</a>
+            <Link href="/register">Registrarse</Link>
           </div>
         )}
       </form>

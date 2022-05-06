@@ -44,7 +44,6 @@ async function signout() {
 }
 
 export const UserService = {
-  user: userSubject.asObservable(),
   get userValue() {
     return userSubject.value
   },

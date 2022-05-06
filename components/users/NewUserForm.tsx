@@ -5,6 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import { NewUserDto } from '../../dtos/user.dto'
 import Alert from '../ui/Alert'
+import Link from 'next/link'
 
 type UserSubmitForm = {
   username: string
@@ -71,7 +72,7 @@ export default function NewUserForm(props: {
         hidden={!props.showAlert}
       />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className={props.isMobile ? '' : classes.left}>
+        <div className={props.isMobile ? classes.algo : classes.left}>
           <div className={classes.control}>
             <label>Nombre de usuario</label>
             <input type="text" {...register('username')} />
@@ -142,7 +143,7 @@ export default function NewUserForm(props: {
         {props.isMobile && (
           <div className={classes.link}>
             <p> o </p>
-            <a href="/login">Iniciar sesión</a>
+            <Link href="/login">Iniciar sesión</Link>
           </div>
         )}
       </form>
