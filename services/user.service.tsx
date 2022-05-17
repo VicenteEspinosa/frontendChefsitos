@@ -7,7 +7,7 @@ const pathPrefix = 'users/'
 async function signup(userData: NewUserDto) {
   return BaseService.request(
     pathPrefix,
-    'signup',
+    'signup/',
     BaseService.RequestMethod.Post,
     JSON.stringify(userData)
   )
@@ -16,7 +16,7 @@ async function signup(userData: NewUserDto) {
 async function signin(logUserData: LogUserDto) {
   const user = await BaseService.request(
     pathPrefix,
-    'signin',
+    'signin/',
     BaseService.RequestMethod.Post,
     JSON.stringify(logUserData)
   )
@@ -31,7 +31,7 @@ const userSubject = new BehaviorSubject(
 async function signout() {
   await BaseService.request(
     pathPrefix,
-    'signout',
+    'signout/',
     BaseService.RequestMethod.Post,
     JSON.stringify({ data: { user: UserService.userValue?.username } })
   )
