@@ -1,4 +1,5 @@
 /* eslint-disable */
+// TOTO: remove eslint-disable line when the component is used
 import { useRef, useState } from 'react'
 
 export default function UploadImageForm(props: { showImagePreview: boolean }) {
