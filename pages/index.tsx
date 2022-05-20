@@ -1,30 +1,41 @@
-import { useRouter } from 'next/router'
-import { useContext, useEffect } from 'react'
-import AuthContext from '../contexts/auth-context'
+import MeasurementSelector from '../components/measurements/Measurement'
+import { useMediaQuery } from 'react-responsive'
+import { useContext } from 'react'
+import { MeasurementService } from '../services/measurement.service'
+import MeasurementContext from '../contexts/measurement-context'
+import { ApiError } from '../infrastructure/errors/api.error'
+import { InternalCode } from '../infrastructure/errors/internal-codes'
 
 export default function Home() {
-  const authContext = useContext(AuthContext)
-  const router = useRouter()
-  useEffect(() => {
-    if (!authContext.user) {
-      router.push('/login')
+  const mobileCheck = useMediaQuery({ query: `(max-width: 600px)` })
+  const measurementContext = useContext(MeasurementContext)
+  async function onMeasurementFetchHandler() {
+    try {
+      const measurementArray = await MeasurementService.getAllMeasurements()
+      measurementContext.setMeasurementArray!(measurementArray)
+    } catch (error) {
+      if (error instanceof ApiError) {
+        if (error.internalCode == InternalCode.EntityNotFound) {
+          return
+        }
+      }
+      throw error
     }
-  })
+  }
+  /* type Measurement = {
+    id: number;
+    name: string;
+  };
+  const rr : Measurement[] = [{"id": 2, "name": "JJJJJ"}]; */
+  
   return (
-    <AuthContext.Consumer>
-      {({ user }) => (
-        <div>
-          {user && (
-            <section>
-              <h1>Bienvenido {user.first_name} a RecipeLib</h1>
-              <p>
-                (This is a sample website - you’ll be building a site like this
-                in <a href="https://nextjs.org/learn">our Next.js tutorial</a>.)
-              </p>
-            </section>
-          )}
-        </div>
+    
+    <MeasurementContext.Consumer>
+      {({ all_measurements }) => (
+      <>
+      <MeasurementSelector onMeasurementFetch={onMeasurementFetchHandler} isMobile={mobileCheck} options={all_measurements}/>
+      </>
       )}
-    </AuthContext.Consumer>
+    </MeasurementContext.Consumer>
   )
 }
