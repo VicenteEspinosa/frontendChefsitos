@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction } from 'react'
-interface IThemeContext {
-  all_measurements: Measurement[] | undefined
-  setMeasurementArray?: Dispatch<SetStateAction<Measurement[] | undefined>>
+interface IContext {
+  all_measurements: Measurement[]
+  setAll_measurements?: Dispatch<SetStateAction<Measurement[]>>
 }
 
 interface Measurement {
@@ -10,9 +10,9 @@ interface Measurement {
 }
 
 const defaultState = {
-    all_measurements: [],
+  all_measurements: [] as Measurement[],
 }
 
-const MeasurementContext = React.createContext<IThemeContext>(defaultState)
+const MeasurementContext = React.createContext<IContext>(defaultState)
 
 export default MeasurementContext

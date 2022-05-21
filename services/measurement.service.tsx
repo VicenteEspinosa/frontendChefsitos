@@ -3,19 +3,27 @@ import { BehaviorSubject } from 'rxjs'
 
 const pathPrefix = 'measurements/'
 
+interface MeasurementResponseItem {
+  id: number
+  name: string
+}
+
+//type MeasurementResponseItems = Array<MeasurementResponseItem>
+
 async function getAllMeasurements() {
-    const measurementArray = await BaseService.request(
-      pathPrefix,
-      '',
-      BaseService.RequestMethod.Get,
-      ''
-    )
-    localStorage.setItem('measurementArray', JSON.stringify(measurementArray))
-    return measurementArray
-  }
+  const measurementArray = await BaseService.request(
+    pathPrefix,
+    '',
+    BaseService.RequestMethod.Get,
+    ''
+  )
+  localStorage.setItem('measurementArray', JSON.stringify(measurementArray))
+  return measurementArray as MeasurementResponseItem[]
+}
 
 const measurementArraySubject = new BehaviorSubject(
-  process.browser && JSON.parse(localStorage.getItem('measurementArray') || '[]')
+  process.browser &&
+    JSON.parse(localStorage.getItem('measurementArray') || '[]')
 )
 
 export const MeasurementService = {
@@ -24,5 +32,5 @@ export const MeasurementService = {
       ? measurementArraySubject.value
       : undefined
   },
-  getAllMeasurements
+  getAllMeasurements,
 }
