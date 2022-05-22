@@ -1,59 +1,30 @@
-import MeasurementSelector from '../components/measurements/Measurement'
-import { useMediaQuery } from 'react-responsive'
-// import { useContext } from 'react'
-import { MeasurementService } from '../services/measurement.service'
-import MeasurementContext from '../contexts/measurement-context'
-import { ApiError } from '../infrastructure/errors/api.error'
-import { InternalCode } from '../infrastructure/errors/internal-codes'
+import { useRouter } from 'next/router'
+import { useContext, useEffect } from 'react'
+import AuthContext from '../contexts/auth-context'
 
 export default function Home() {
-  const mobileCheck = useMediaQuery({ query: `(max-width: 600px)` })
-  // const measurementContext = useContext(MeasurementContext)
-  async function onMeasurementFetchHandler() {
-    try {
-      interface Measurement {
-        id: number
-        name: string
-      }
-      const measurementArray = await MeasurementService.getAllMeasurements()
-      if (measurementArray) {
-        const stronglyTypedArray = measurementArray.map(
-          (msrmnt) => msrmnt as Measurement
-        ) as Measurement[]
-        console.log('AWSASASSA')
-        console.log(typeof stronglyTypedArray)
-        console.log(stronglyTypedArray)
-        console.log(stronglyTypedArray[0])
-        console.log('AWSASASSA')
-        //measurementContext.setAll_measurements!(stronglyTypedArray)
-        return measurementArray
-      }
-    } catch (error) {
-      if (error instanceof ApiError) {
-        if (error.internalCode == InternalCode.EntityNotFound) {
-          return
-        }
-      }
-      throw error
+  const authContext = useContext(AuthContext)
+  const router = useRouter()
+  useEffect(() => {
+    if (!authContext.user) {
+      router.push('/login')
     }
-  }
-  /* type Measurement = {
-    id: number;
-    name: string;
-  };
-  const rr : Measurement[] = [{"id": 2, "name": "JJJJJ"}]; */
-
+  })
   return (
-    <MeasurementContext.Consumer>
-      {({ all_measurements }) => (
-        <>
-          <MeasurementSelector
-            onMeasurementFetch={onMeasurementFetchHandler}
-            isMobile={mobileCheck}
-            options={all_measurements}
-          />
-        </>
+    <AuthContext.Consumer>
+      {({ user }) => (
+        <div>
+          {user && (
+            <section>
+              <h1>Bienvenido {user.first_name} a RecipeLib</h1>
+              <p>
+                (This is a sample website - you’ll be building a site like this
+                in <a href="https://nextjs.org/learn">our Next.js tutorial</a>.)
+              </p>
+            </section>
+          )}
+        </div>
       )}
-    </MeasurementContext.Consumer>
+    </AuthContext.Consumer>
   )
 }

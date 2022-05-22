@@ -3,12 +3,10 @@ import { BehaviorSubject } from 'rxjs'
 
 const pathPrefix = 'measurements/'
 
-interface MeasurementResponseItem {
+export interface Measurement {
   id: number
   name: string
 }
-
-//type MeasurementResponseItems = Array<MeasurementResponseItem>
 
 async function getAllMeasurements() {
   const measurementArray = await BaseService.request(
@@ -18,18 +16,18 @@ async function getAllMeasurements() {
     ''
   )
   localStorage.setItem('measurementArray', JSON.stringify(measurementArray))
-  return measurementArray as MeasurementResponseItem[]
+  return measurementArray as Measurement[]
 }
 
 const measurementArraySubject = new BehaviorSubject(
   process.browser &&
-    JSON.parse(localStorage.getItem('measurementArray') || '[]')
+    JSON.parse(localStorage.getItem('measurementArray') || '{}')
 )
 
 export const MeasurementService = {
   get measurementArrayValue() {
     return Object.keys(measurementArraySubject.value).length !== 0
-      ? measurementArraySubject.value
+      ? measurementArraySubject.value as Measurement[]
       : undefined
   },
   getAllMeasurements,

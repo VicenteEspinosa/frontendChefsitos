@@ -1,60 +1,68 @@
 import { Autocomplete, TextField } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-
-type Measurement = {
-  id: number
-  name: string
-}
-
-interface MeasurementResponseItem {
-  id: number
-  name: string
-}
+import { MeasurementService, Measurement } from '../../services/measurement.service'
 
 export default function MeasurementSelector(props: {
-  onMeasurementFetch: () => Promise<MeasurementResponseItem[] | undefined>
-  options: Measurement[] | undefined
   isMobile: boolean
 }) {
-  const [loaded, setLoaded] = useState(0)
   const [data, setData] = useState([] as Measurement[])
+  const [measurementChosen, setMeasurementChosen] = React.useState<Measurement | null>(null);
+  const formWidth = props.isMobile ? 2/5 : 1/5
 
   useEffect(() => {
-    // You need to restrict it at some point
-    // This is just dummy code and should be replaced by actual
-    if (!loaded) {
-      getToken()
-    }
+    getList()
   }, [])
 
-  const getToken = async () => {
-    const as = await props.onMeasurementFetch()
-    console.log('sadfeafzcc')
-    console.log(as)
-    if (as) {
-      setData(as)
+  const getList = async () => {
+    const preload = MeasurementService.measurementArrayValue
+    if (preload) {
+      setData(preload)
+      return 
     }
-    setLoaded(1)
+    const fetchLoad = await onMeasurementFetch()
+    if (fetchLoad) {
+      setData(fetchLoad)
+    }
+    return
+  }
+
+  async function onMeasurementFetch() {
+    try {
+      const measurementArray = await MeasurementService.getAllMeasurements()
+      if (measurementArray) {
+        return measurementArray
+      }
+    } catch (error) {
+      console.log("Error en linea 40 de Measurement.tsx")
+      console.log(error)
+      return undefined
+    }
   }
 
   return (
     <>
       <Autocomplete
+        onChange={(event: object, value: Measurement | null, reason: string) => {
+          console.log(typeof event)
+          if (reason === "selectOption") {
+            setMeasurementChosen(value)
+          }
+          else if (reason === "clear") {
+            setMeasurementChosen(null)
+          }
+        }}
         id="grouped-measurements"
         options={
-          data
-            ? data.sort(
-                (a, b) => -b.name.charAt(0).localeCompare(a.name.charAt(0))
-              )
-            : [{ name: 'all_measurements esta undefined', id: 21 }]
+          data.sort(
+            (a, b) => -b.name.charAt(0).localeCompare(a.name.charAt(0))
+          )
         }
         groupBy={(option) => option.name.charAt(0).toUpperCase()}
         getOptionLabel={(option) => option.name}
-        sx={{ width: 300 }}
+        sx={{ width: formWidth}}
         renderInput={(params) => <TextField {...params} label="Unidad" />}
       />
-      <p>props.options: {JSON.stringify(props)}</p>
-      <p>estado: {loaded.toString()}</p>
+      <div>{`Valor escogido: ${JSON.stringify(measurementChosen)}`}</div>
     </>
   )
 }
