@@ -16,9 +16,11 @@ async function request(
     {
       body: body,
       headers: {
+        Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       method: method,
+      credentials: 'include',
     }
   )
   const resJson = await response.json()

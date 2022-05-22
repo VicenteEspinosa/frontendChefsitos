@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
-import NewUserForm from '../../components/users/NewUserForm'
+import NewUserForm from '../../components/forms/NewUserForm'
 import AuthContext from '../../contexts/auth-context'
 import { NewUserDto } from '../../dtos/user.dto'
 import { ApiError } from '../../infrastructure/errors/api.error'

@@ -2,7 +2,7 @@ import { LogUserDto } from '../../dtos/user.dto'
 import * as Yup from 'yup'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import classes from './NewUserForm.module.css'
+import classes from './Form.module.css'
 import Card from '../ui/Card'
 import Alert from '../ui/Alert'
 import Link from 'next/link'
@@ -37,7 +37,7 @@ export default function LogUserForm(props: {
         class="warning"
         message="Tus credenciales están erroneas"
       />
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
         <div className={classes.control}>
           <label>Nombre de usuario</label>
           <input type="text" {...register('username')} />

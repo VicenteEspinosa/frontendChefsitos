@@ -9,3 +9,20 @@ body {
 a {
   cursor: pointer;
 }
+
+.flex {
+  display: flex;
+}
+
+.left {
+  width: 50%;
+  float: left;
+}
+
+.center {
+  text-align: center;
+}
+
+input[type='file'] {
+  color: rgba(0, 0, 0, 0);
+}
