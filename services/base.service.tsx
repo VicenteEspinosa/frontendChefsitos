@@ -31,6 +31,5 @@ async function request(
   return resJson
 }
 
-Request
 const BaseService = { RequestMethod, request }
 export default BaseService
