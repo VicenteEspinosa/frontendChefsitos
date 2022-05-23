@@ -15,6 +15,7 @@ async function request(
     [index: string]: string | RequestMethod | { [index: string]: string }
   } = {
     headers: {
+      Accept: 'application/json',
       'Content-Type': 'application/json',
     },
     method: method,
