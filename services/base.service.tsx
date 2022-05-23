@@ -15,10 +15,13 @@ async function request(
     [index: string]: string | RequestMethod | { [index: string]: string }
   } = {
     headers: {
+      Accept: 'application/json',
       'Content-Type': 'application/json',
     },
     method: method,
+    credentials: 'include',
   }
+  console.log(content)
   if (body.length) content['body'] = body
   const response = await fetch(
     `http://localhost:8000/api/${pathPrefix}${pathSufix}`,

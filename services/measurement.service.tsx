@@ -27,7 +27,7 @@ const measurementArraySubject = new BehaviorSubject(
 export const MeasurementService = {
   get measurementArrayValue() {
     return Object.keys(measurementArraySubject.value).length !== 0
-      ? measurementArraySubject.value as Measurement[]
+      ? (measurementArraySubject.value as Measurement[])
       : undefined
   },
   getAllMeasurements,

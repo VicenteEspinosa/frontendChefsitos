@@ -1,5 +1,5 @@
 import Card from '../ui/Card'
-import classes from './NewUserForm.module.css'
+import classes from './Form.module.css'
 import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
@@ -71,8 +71,8 @@ export default function NewUserForm(props: {
         message="El nombre de usuario ya está en uso, por favor elija otro"
         hidden={!props.showAlert}
       />
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className={props.isMobile ? classes.algo : classes.left}>
+      <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
+        <div className={props.isMobile ? classes['w-full'] : 'left'}>
           <div className={classes.control}>
             <label>Nombre de usuario</label>
             <input type="text" {...register('username')} />
