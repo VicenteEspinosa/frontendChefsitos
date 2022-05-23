@@ -1,13 +1,15 @@
 import { Autocomplete, TextField } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { MeasurementService, Measurement } from '../../services/measurement.service'
+import {
+  MeasurementService,
+  Measurement,
+} from '../../services/measurement.service'
 
-export default function MeasurementSelector(props: {
-  isMobile: boolean
-}) {
+export default function MeasurementSelector(props: { isMobile: boolean }) {
   const [data, setData] = useState([] as Measurement[])
-  const [measurementChosen, setMeasurementChosen] = React.useState<Measurement | null>(null);
-  const formWidth = props.isMobile ? 2/5 : 1/5
+  const [measurementChosen, setMeasurementChosen] =
+    React.useState<Measurement | null>(null)
+  const formWidth = props.isMobile ? 2 / 5 : 1 / 5
 
   useEffect(() => {
     getList()
@@ -17,7 +19,7 @@ export default function MeasurementSelector(props: {
     const preload = MeasurementService.measurementArrayValue
     if (preload) {
       setData(preload)
-      return 
+      return
     }
     const fetchLoad = await onMeasurementFetch()
     if (fetchLoad) {
@@ -33,7 +35,7 @@ export default function MeasurementSelector(props: {
         return measurementArray
       }
     } catch (error) {
-      console.log("Error en linea 40 de Measurement.tsx")
+      console.log('Error en linea 40 de Measurement.tsx')
       console.log(error)
       return undefined
     }
@@ -42,24 +44,25 @@ export default function MeasurementSelector(props: {
   return (
     <>
       <Autocomplete
-        onChange={(event: object, value: Measurement | null, reason: string) => {
+        onChange={(
+          event: object,
+          value: Measurement | null,
+          reason: string
+        ) => {
           console.log(typeof event)
-          if (reason === "selectOption") {
+          if (reason === 'selectOption') {
             setMeasurementChosen(value)
-          }
-          else if (reason === "clear") {
+          } else if (reason === 'clear') {
             setMeasurementChosen(null)
           }
         }}
         id="grouped-measurements"
-        options={
-          data.sort(
-            (a, b) => -b.name.charAt(0).localeCompare(a.name.charAt(0))
-          )
-        }
+        options={data.sort(
+          (a, b) => -b.name.charAt(0).localeCompare(a.name.charAt(0))
+        )}
         groupBy={(option) => option.name.charAt(0).toUpperCase()}
         getOptionLabel={(option) => option.name}
-        sx={{ width: formWidth}}
+        sx={{ width: formWidth }}
         renderInput={(params) => <TextField {...params} label="Unidad" />}
       />
       <div>{`Valor escogido: ${JSON.stringify(measurementChosen)}`}</div>

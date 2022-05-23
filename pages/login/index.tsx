@@ -1,7 +1,7 @@
 import { ApiError } from '../../infrastructure/errors/api.error'
 import { useRouter } from 'next/router'
 import React, { useContext, useState } from 'react'
-import LogUserForm from '../../components/users/LogUserForm'
+import LogUserForm from '../../components/forms/LogUserForm'
 import AuthContext from '../../contexts/auth-context'
 import { LogUserDto } from '../../dtos/user.dto'
 import { UserService } from '../../services/user.service'
