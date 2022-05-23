@@ -6,6 +6,21 @@ const pathPrefix = 'ingredients/'
 export interface Ingredient {
   id: number
   name: string
+  inputValue?: string
+}
+
+export interface NewIngredient {
+  name: string
+}
+
+async function postIngredient(ingredientData: NewIngredient) {
+  const ingredientResponse = await BaseService.request(
+    pathPrefix,
+    '',
+    BaseService.RequestMethod.Post,
+    JSON.stringify(ingredientData)
+  )
+  return ingredientResponse as Ingredient
 }
 
 async function getAllIngredients() {
@@ -31,4 +46,5 @@ export const IngredientService = {
       : undefined
   },
   getAllIngredients,
+  postIngredient,
 }

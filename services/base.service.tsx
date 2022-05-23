@@ -15,9 +15,11 @@ async function request(
     [index: string]: string | RequestMethod | { [index: string]: string }
   } = {
     headers: {
+      Accept: 'application/json',
       'Content-Type': 'application/json',
     },
     method: method,
+    credentials: 'include',
   }
   if (body.length) content['body'] = body
   const response = await fetch(
