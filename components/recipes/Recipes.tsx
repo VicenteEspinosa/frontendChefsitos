@@ -71,7 +71,7 @@ export default function Recipes(props: { myRecipes?: boolean }) {
                 onClick={() => {
                   console.log('click en usuario')
                 }}
-                sx={{ bgcolor: red[500] }}
+                sx={{ bgcolor: red[500], cursor: 'pointer' }}
                 aria-label="recipe"
                 src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png" // TODO usar la imagen del usuario
               ></Avatar>
@@ -90,6 +90,7 @@ export default function Recipes(props: { myRecipes?: boolean }) {
             }}
             component="img"
             height="194"
+            sx={{ cursor: 'pointer' }}
             image={
               recipe.picture_url
                 ? recipe.picture_url
