@@ -7,7 +7,7 @@ import {
 
 export default function TagSelector(props: { isMobile: boolean }){
 	const [data, setData] = useState([] as Tag[])
-	const [tagChosen, setTagChosen] = React.useState<Tag | null>(null)
+	const [tagChosen, setTagChosen] = React.useState<Tag[] | null>(null)
 	const formWidth = props.isMobile ? 2 / 5 : 1 / 5
 
 	useEffect(() => {
@@ -45,11 +45,12 @@ export default function TagSelector(props: { isMobile: boolean }){
 			<Autocomplete 
 				onChange={(
 					event: object,
-					value: Tag | null,
+					value: Tag[] | null,
 					reason: string
 				) => {
 					console.log(typeof event)
 					if (reason === 'selectOption') {
+						console.log(value)
 						setTagChosen(value)
 					} else if (reason === 'clear') {
 						setTagChosen(null)
