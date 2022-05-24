@@ -35,14 +35,13 @@ async function getAllIngredients() {
 }
 
 const ingredientArraySubject = new BehaviorSubject(
-  process.browser &&
-    JSON.parse(localStorage.getItem('ingredientArray') || '{}')
+  process.browser && JSON.parse(localStorage.getItem('ingredientArray') || '{}')
 )
 
 export const IngredientService = {
   get ingredientArrayValue() {
     return Object.keys(ingredientArraySubject.value).length !== 0
-      ? ingredientArraySubject.value as Ingredient[]
+      ? (ingredientArraySubject.value as Ingredient[])
       : undefined
   },
   getAllIngredients,

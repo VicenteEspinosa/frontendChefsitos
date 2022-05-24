@@ -1,18 +1,30 @@
-import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, TextField } from '@mui/material'
+import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete'
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+  TextField,
+} from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { IngredientService, Ingredient, NewIngredient } from '../../services/ingredient.service'
+import {
+  IngredientService,
+  Ingredient,
+  NewIngredient,
+} from '../../services/ingredient.service'
 
-export default function IngredientSelector(props: {
-  isMobile: boolean
-}) {  
+export default function IngredientSelector(props: { isMobile: boolean }) {
   const [data, setData] = useState([] as Ingredient[])
-  const [ingredientChosen, setIngredientChosen] = React.useState<Ingredient | null>(null)
-  const [open, toggleOpen] = React.useState(false);
-  const [newIngredient, setnewIngredient] = React.useState<NewIngredient | null>(null)
+  const [ingredientChosen, setIngredientChosen] =
+    React.useState<Ingredient | null>(null)
+  const [open, toggleOpen] = React.useState(false)
+  const [newIngredient, setnewIngredient] =
+    React.useState<NewIngredient | null>(null)
   const [dialogValue, setDialogValue] = React.useState('')
-  const formWidth = props.isMobile ? 2/5 : 1/5
-  const filter = createFilterOptions<Ingredient>();
+  const formWidth = props.isMobile ? 2 / 5 : 1 / 5
+  const filter = createFilterOptions<Ingredient>()
 
   useEffect(() => {
     getList()
@@ -23,7 +35,7 @@ export default function IngredientSelector(props: {
     if (fetchLoad) {
       setData(fetchLoad)
     }
-    return 
+    return
   }
 
   async function onIngredientFetch() {
@@ -33,7 +45,7 @@ export default function IngredientSelector(props: {
         return ingredientArray
       }
     } catch (error) {
-      console.log("Error en linea 36 de Ingredient.tsx")
+      console.log('Error en linea 36 de Ingredient.tsx')
       console.log(error)
       return undefined
     }
@@ -47,78 +59,77 @@ export default function IngredientSelector(props: {
   }
 
   const handleClose = () => {
-    setDialogValue('');
-    toggleOpen(false);
-  };
+    setDialogValue('')
+    toggleOpen(false)
+  }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+    event.preventDefault()
     setnewIngredient({
       name: dialogValue,
     })
-    handleClose();
-  };
+    handleClose()
+  }
 
   useEffect(() => {
     const fetchData = async () => {
-      if (newIngredient){
+      if (newIngredient) {
         await sendNewIngredient(newIngredient)
         await getList()
         setnewIngredient(null)
       }
-   }
+    }
     fetchData()
-  }, [ newIngredient ])
+  }, [newIngredient])
 
   return (
     <>
       <Autocomplete
         value={ingredientChosen}
-        onChange={
-          (event, newValue) => {
-          if (typeof newValue === "string") {
+        onChange={(event, newValue) => {
+          if (typeof newValue === 'string') {
             // timeout to avoid instant validation of the dialog's form.
             setTimeout(() => {
-              toggleOpen(true);
-              setDialogValue(newValue);
-            });
+              toggleOpen(true)
+              setDialogValue(newValue)
+            })
           } else if (newValue && newValue.inputValue) {
-            toggleOpen(true);
-            setDialogValue(newValue.inputValue);
+            toggleOpen(true)
+            setDialogValue(newValue.inputValue)
           } else {
-            setIngredientChosen(newValue);
+            setIngredientChosen(newValue)
           }
-          }
-        }
+        }}
         filterOptions={(options, params) => {
-          const filtered = filter(options, params); 
-          const names = filtered.map((ing)  => (ing.name))
-          if (params.inputValue !== "" && !names.includes(params.inputValue.toLowerCase())) {
+          const filtered = filter(options, params)
+          const names = filtered.map((ing) => ing.name)
+          if (
+            params.inputValue !== '' &&
+            !names.includes(params.inputValue.toLowerCase())
+          ) {
             filtered.push({
               inputValue: params.inputValue,
               name: `*Añadir "${params.inputValue}"`,
-              id: -1
-            });
+              id: -1,
+            })
           }
-          return filtered;
+          return filtered
         }}
         id="grouped-ingredients"
-        options={
-          data.sort(
-            (a, b) => -b.name.charAt(0).localeCompare(a.name.charAt(0))
-          )
-        }
+        options={data.sort(
+          (a, b) => -b.name.charAt(0).localeCompare(a.name.charAt(0))
+        )}
         groupBy={(option) => option.name.charAt(0).toUpperCase()}
-        getOptionLabel={(option) => { 
-          if (typeof option === "string") {
-            return option;
+        getOptionLabel={(option) => {
+          if (typeof option === 'string') {
+            return option
           }
           if (option.inputValue) {
-            return option.inputValue;
+            return option.inputValue
           }
-          return option.name 
+          return option.name
         }}
-        sx={{ width: formWidth}}
+        sx={{ width: formWidth }}
         renderInput={(params) => <TextField {...params} label="Ingrediente" />}
         clearOnBlur
         renderOption={(props, option) => <li {...props}>{option.name}</li>}
@@ -132,11 +143,9 @@ export default function IngredientSelector(props: {
               ¿Falta algún ingrediente en nuestra lista? ¡Añádelo!
             </DialogContentText>
             <TextField
-              inputProps={
-                { readOnly: true, }
-              }
+              inputProps={{ readOnly: true }}
               autoFocus
-              variant='outlined'
+              variant="outlined"
               margin="dense"
               id="name"
               value={dialogValue}
@@ -152,5 +161,5 @@ export default function IngredientSelector(props: {
       </Dialog>
       <div>{`Valor escogido: ${JSON.stringify(ingredientChosen)}`}</div>
     </>
-  );
+  )
 }
