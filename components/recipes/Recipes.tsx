@@ -11,9 +11,12 @@ import FavoriteIcon from '@mui/icons-material/Favorite'
 import { RecipeService, Recipe } from '../../services/recipe.service'
 import { useEffect, useState } from 'react'
 import classes from './Recipe.module.css'
+import { useRouter } from 'next/router'
 
 export default function Recipes(props: { myRecipes?: boolean }) {
   const [data, setData] = useState([] as Recipe[])
+  const router = useRouter()
+
   useEffect(() => {
     getList()
   }, [])
@@ -56,7 +59,7 @@ export default function Recipes(props: { myRecipes?: boolean }) {
           variant="outlined"
           sx={{
             maxWidth: 345,
-            backgroundColor: '#77002e',
+            backgroundColor: 'rgb(165, 95, 8)',
             color: 'white',
           }}
           key={recipe.id}
@@ -83,7 +86,7 @@ export default function Recipes(props: { myRecipes?: boolean }) {
           />
           <CardMedia
             onClick={() => {
-              console.log('click en receta')
+              router.push(`/recipes/${recipe.id}`)
             }}
             component="img"
             height="194"
