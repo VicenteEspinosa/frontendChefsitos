@@ -1,0 +1,10 @@
+.container {
+  padding: 0.5rem 0;
+}
+
+.container button {
+  background-color: #77002e;
+  color: white;
+  border: 1px solid #77002e;
+  border-radius: 4px;
+}

@@ -8,6 +8,7 @@ jest.mock('../../services/measurement.service')
 const mockedMeasurementService = MeasurementService as jest.Mocked<
   typeof MeasurementService
 >
+const mockedSelectionChangeHandler = jest.fn()
 
 describe('measurement form component', () => {
   mockedMeasurementService.getAllMeasurements.mockResolvedValue([
@@ -17,7 +18,12 @@ describe('measurement form component', () => {
 
   test('form gets rendered correctly', async () => {
     await act(async () => {
-      render(<MeasurementSelector isMobile={false} />)
+      render(
+        <MeasurementSelector
+          onSelectionChange={mockedSelectionChangeHandler}
+          isMobile={false}
+        />
+      )
     })
 
     expect(screen.getAllByText('Unidad')[0]).toBeInTheDocument()
@@ -25,7 +31,12 @@ describe('measurement form component', () => {
 
   test('clicking in the form open arrow displays the measurement options', async () => {
     await act(async () => {
-      render(<MeasurementSelector isMobile={false} />)
+      render(
+        <MeasurementSelector
+          onSelectionChange={mockedSelectionChangeHandler}
+          isMobile={false}
+        />
+      )
     })
 
     fireEvent.click(screen.getByLabelText('Open'))

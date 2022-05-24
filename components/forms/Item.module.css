@@ -3,9 +3,16 @@
   padding: 0 0.5rem;
 }
 
-.button {
+.delete-button-container {
   text-align: end;
   width: 100%;
+}
+
+.button {
+  background-color: #77002e;
+  color: white;
+  border: 1px solid #77002e;
+  border-radius: 4px;
 }
 
 .number-order {

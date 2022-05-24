@@ -15,7 +15,10 @@ import {
   NewIngredient,
 } from '../../services/ingredient.service'
 
-export default function IngredientSelector(props: { isMobile: boolean }) {
+export default function IngredientSelector(props: {
+  isMobile: boolean
+  onSelectionChange: (ingredientId: number | null) => void
+}) {
   const [data, setData] = useState([] as Ingredient[])
   const [ingredientChosen, setIngredientChosen] =
     React.useState<Ingredient | null>(null)
@@ -23,12 +26,16 @@ export default function IngredientSelector(props: { isMobile: boolean }) {
   const [newIngredient, setnewIngredient] =
     React.useState<NewIngredient | null>(null)
   const [dialogValue, setDialogValue] = React.useState('')
-  const formWidth = props.isMobile ? 2 / 5 : 1 / 5
+  const formWidth = props.isMobile ? 2 / 2 : 2 / 2
   const filter = createFilterOptions<Ingredient>()
 
   useEffect(() => {
     getList()
   }, [])
+
+  useEffect(() => {
+    props.onSelectionChange(ingredientChosen ? ingredientChosen.id : null)
+  }, [ingredientChosen])
 
   const getList = async () => {
     const fetchLoad = await onIngredientFetch()
@@ -45,7 +52,6 @@ export default function IngredientSelector(props: { isMobile: boolean }) {
         return ingredientArray
       }
     } catch (error) {
-      console.log('Error en linea 36 de Ingredient.tsx')
       console.log(error)
       return undefined
     }
@@ -159,7 +165,6 @@ export default function IngredientSelector(props: { isMobile: boolean }) {
           </DialogActions>
         </form>
       </Dialog>
-      <div>{`Valor escogido: ${JSON.stringify(ingredientChosen)}`}</div>
     </>
   )
 }

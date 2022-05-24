@@ -53,7 +53,7 @@ export default function LogUserForm(props: {
           </div>
         </div>
         <div className={classes.actions}>
-          <button>Iniciar sesión</button>
+          <button className={classes['form-button']}>Iniciar sesión</button>
         </div>
         {props.isMobile && (
           <div className={classes.link}>
