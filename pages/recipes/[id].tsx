@@ -21,6 +21,8 @@ export default function RecipePage() {
     if (id) {
       try {
         const resRecipe = await RecipeService.get(id)
+        resRecipe.items[2].url =
+          'https://media.discordapp.net/attachments/971206953592315946/978863311795920916/hamburguesa-3.jpeg?width=829&height=473'
         setRecipe(resRecipe)
       } catch (error) {
         if (error instanceof ApiError) {
@@ -41,7 +43,11 @@ export default function RecipePage() {
           <div className="flex">
             {recipe.picture_url && (
               <div className="left">
-                <img alt="picture" src={recipe.picture_url} />
+                <img
+                  className={classes.picture}
+                  alt="picture"
+                  src={recipe.picture_url}
+                />
               </div>
             )}
             <div className={classes.information}>

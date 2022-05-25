@@ -9,4 +9,9 @@
 
 .item img {
   display: block;
+  width: -webkit-fill-available;
+}
+
+.picture {
+  width: -webkit-fill-available;
 }
