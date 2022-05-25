@@ -4,9 +4,8 @@ import React, { useContext, useEffect } from 'react'
 import AuthContext from '../../contexts/auth-context'
 import Avatar from '@mui/material/Avatar'
 import Card from '../../components/ui/Card'
-import DeleteUser from './delete'
 
-export default function LoginPage(props: { isMobile: boolean }) {
+export default function LoginPage() {
   // const [entityNotFound, setEntityNotFound] = useState(false)
   const router = useRouter()
   const { user } = useContext(AuthContext)

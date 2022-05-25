@@ -14,7 +14,7 @@ export default function NewRecipePage(props: { isMobile: boolean }) {
   async function onAddUserHandler(enteredUserData: EditUserDto) {
     try {
       enteredUserData = Object.fromEntries(
-        Object.entries(enteredUserData).filter(([_, v]) => v != '')
+        Object.entries(enteredUserData).filter(([, v]) => v != '')
       )
       // console.log(enteredUserData)
       const user = await UserService.edit(enteredUserData)
