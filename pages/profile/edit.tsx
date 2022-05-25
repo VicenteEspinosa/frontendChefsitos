@@ -16,7 +16,6 @@ export default function NewRecipePage(props: { isMobile: boolean }) {
       enteredUserData = Object.fromEntries(
         Object.entries(enteredUserData).filter(([, v]) => v != '')
       )
-      // console.log(enteredUserData)
       const user = await UserService.edit(enteredUserData)
       authContext.setUser!(user)
       router.push('/profile')

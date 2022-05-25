@@ -20,6 +20,7 @@ describe('measurement form component', () => {
     await act(async () => {
       render(
         <MeasurementSelector
+          initialId={1}
           onSelectionChange={mockedSelectionChangeHandler}
           isMobile={false}
         />
@@ -33,6 +34,7 @@ describe('measurement form component', () => {
     await act(async () => {
       render(
         <MeasurementSelector
+          initialId={1}
           onSelectionChange={mockedSelectionChangeHandler}
           isMobile={false}
         />

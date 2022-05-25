@@ -21,8 +21,6 @@ export default function RecipePage() {
     if (id) {
       try {
         const resRecipe = await RecipeService.get(id)
-        resRecipe.items[2].url =
-          'https://media.discordapp.net/attachments/971206953592315946/978863311795920916/hamburguesa-3.jpeg?width=829&height=473'
         setRecipe(resRecipe)
       } catch (error) {
         if (error instanceof ApiError) {

@@ -4,6 +4,7 @@ enum RequestMethod {
   Get = 'GET',
   Post = 'POST',
   Delete = 'DELETE',
+  Put = 'PUT',
 }
 
 async function request(
@@ -28,7 +29,6 @@ async function request(
     content
   )
   const resJson = await response.json()
-  console.log(response)
   if (!response.ok) {
     throw new ApiError(resJson)
   }
