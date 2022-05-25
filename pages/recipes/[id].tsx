@@ -6,6 +6,8 @@ import { RecipeService, Recipe } from '../../services/recipe.service'
 import Card from '../../components/ui/Card'
 import classes from './RecipePage.module.css'
 import { InternalCode } from '../../infrastructure/errors/internal-codes'
+import Chip from '@mui/material/Chip'
+import DeleteIcon from '@mui/icons-material/Delete'
 
 export default function RecipePage() {
   const [recipe, setRecipe] = useState<Recipe | undefined>()
@@ -16,6 +18,22 @@ export default function RecipePage() {
       getRecipe(parseInt(id))
     }
   }, [id])
+
+  async function handleDelete() {
+    try {
+      if (typeof id === 'string') {
+        await RecipeService.delete_recipe(id)
+      }
+      router.push('/')
+    } catch (error) {
+      if (error instanceof ApiError) {
+        if (error.internalCode == InternalCode.EntityNotProcesable) {
+          return
+        }
+      }
+      throw error
+    }
+  }
 
   const getRecipe = async (id: number) => {
     if (id) {
@@ -37,7 +55,17 @@ export default function RecipePage() {
     <>
       {recipe && (
         <Card>
-          <h1>{recipe.name}</h1>
+          <div className={classes.flexHeader}>
+            <h1>{recipe.name}</h1>
+            <Chip
+              label="Borrar Receta"
+              onClick={handleDelete}
+              onDelete={handleDelete}
+              deleteIcon={<DeleteIcon />}
+              variant="outlined"
+              color="error"
+            />
+          </div>
           <div className="flex">
             {recipe.picture_url && (
               <div className="left">
