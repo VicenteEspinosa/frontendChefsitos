@@ -3,6 +3,7 @@ import { ApiError } from '../infrastructure/errors/api.error'
 enum RequestMethod {
   Get = 'GET',
   Post = 'POST',
+  Delete = 'DELETE',
 }
 
 async function request(
@@ -28,6 +29,7 @@ async function request(
     content
   )
   const resJson = await response.json()
+  console.log(response)
   if (!response.ok) {
     throw new ApiError(resJson)
   }
