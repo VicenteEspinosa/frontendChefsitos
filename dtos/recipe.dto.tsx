@@ -4,6 +4,12 @@ interface NewRecipeDto {
   description?: string
   items: Item[]
   private: boolean
+  tagIds: number[]
+  ingredients: {
+    quantity: number
+    measurement_id: number
+    ingredient_id: number
+  }[]
 }
 
 interface Item {

@@ -5,15 +5,22 @@ import {
   Measurement,
 } from '../../services/measurement.service'
 
-export default function MeasurementSelector(props: { isMobile: boolean }) {
+export default function MeasurementSelector(props: {
+  isMobile: boolean
+  onSelectionChange: (measurementId: number | null) => void
+}) {
   const [data, setData] = useState([] as Measurement[])
   const [measurementChosen, setMeasurementChosen] =
     React.useState<Measurement | null>(null)
-  const formWidth = props.isMobile ? 2 / 5 : 1 / 5
+  const formWidth = props.isMobile ? 2 / 2 : 1 / 2
 
   useEffect(() => {
     getList()
   }, [])
+
+  useEffect(() => {
+    props.onSelectionChange(measurementChosen ? measurementChosen.id : null)
+  }, [measurementChosen])
 
   const getList = async () => {
     const preload = MeasurementService.measurementArrayValue
@@ -35,7 +42,6 @@ export default function MeasurementSelector(props: { isMobile: boolean }) {
         return measurementArray
       }
     } catch (error) {
-      console.log('Error en linea 40 de Measurement.tsx')
       console.log(error)
       return undefined
     }
@@ -49,7 +55,6 @@ export default function MeasurementSelector(props: { isMobile: boolean }) {
           value: Measurement | null,
           reason: string
         ) => {
-          console.log(typeof event)
           if (reason === 'selectOption') {
             setMeasurementChosen(value)
           } else if (reason === 'clear') {
@@ -65,7 +70,6 @@ export default function MeasurementSelector(props: { isMobile: boolean }) {
         sx={{ width: formWidth }}
         renderInput={(params) => <TextField {...params} label="Unidad" />}
       />
-      <div>{`Valor escogido: ${JSON.stringify(measurementChosen)}`}</div>
     </>
   )
 }

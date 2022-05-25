@@ -47,15 +47,15 @@ export default function Item(props: {
             handleUpload={uploadImage}
           />
         </div>
-        <div className={classes.button}>
-          <button onClick={remove}>
+        <div className={classes['delete-button-container']}>
+          <button className={classes.button} onClick={remove}>
             <DeleteIcon />
           </button>
         </div>
       </div>
       {props.showChangeButton && (
         <div className="center">
-          <button onClick={changeForNextItem}>
+          <button className={classes.button} onClick={changeForNextItem}>
             <ChangeCircleIcon />
           </button>
         </div>

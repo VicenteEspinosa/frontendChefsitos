@@ -138,7 +138,7 @@ export default function NewUserForm(props: {
           </div>
         </div>
         <div className={classes.actions}>
-          <button>Registrar</button>
+          <button className={classes['form-button']}>Registrar</button>
         </div>
         {props.isMobile && (
           <div className={classes.link}>

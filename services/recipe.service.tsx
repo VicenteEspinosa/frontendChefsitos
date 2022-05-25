@@ -24,6 +24,15 @@ async function create(recipeData: NewRecipeDto) {
   )
 }
 
+async function get(recipeId: number) {
+  return BaseService.request(
+    pathPrefix,
+    `${recipeId}/`,
+    BaseService.RequestMethod.Get,
+    ''
+  )
+}
+
 async function myRecipes() {
   return BaseService.request(
     pathPrefix,
@@ -44,5 +53,6 @@ export const RecipeService = {
       : undefined
   },
   create,
+  get,
   myRecipes,
 }
