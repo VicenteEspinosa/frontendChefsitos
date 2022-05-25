@@ -8,7 +8,9 @@ interface User {
   username: string
   email: string
   first_name: string
-  last_nanme: string
+  last_name: string
+  picture_url: string
+  description: string
 }
 
 const defaultState = {
