@@ -135,7 +135,15 @@ export default function RecipeForm(props: {
     setItems(newItems)
   }, [itemsInfo])
   const [items, setItems] = useState<React.ReactElement[]>([])
-  const [pictureUrl, setPictureUrl] = useState('')
+  const [pictureUrl, setPictureUrl] = useState(
+    props.recipe ? props.recipe.picture_url : ''
+  )
+  const [recipeName, setRecipeName] = useState(
+    props.recipe ? props.recipe.name : ''
+  )
+  const [recipeDescription, setRecipeDescription] = useState(
+    props.recipe ? props.recipe.description : ''
+  )
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .required('El nombre es requerido')
@@ -168,6 +176,8 @@ export default function RecipeForm(props: {
     try {
       const recipeData = {
         ...data,
+        name: recipeName,
+        description: recipeDescription,
         picture_url: pictureUrl,
         items: itemsInfo.map((item, index) => ({
           ...item,
@@ -231,7 +241,8 @@ export default function RecipeForm(props: {
               <input
                 type="text"
                 {...register('name')}
-                value={props.recipe?.name}
+                value={recipeName}
+                onChange={(e) => setRecipeName(e.target.value)}
               />
               <div className={baseClasses['invalid-feedback']}>
                 {errors.name?.message}
@@ -242,7 +253,8 @@ export default function RecipeForm(props: {
               <label>Descripción</label>
               <textarea
                 {...register('description')}
-                value={props.recipe?.description}
+                value={recipeDescription}
+                onChange={(e) => setRecipeDescription(e.target.value)}
               />
             </div>
             <div className={baseClasses.control}>
