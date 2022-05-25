@@ -1,4 +1,3 @@
-// import {jest} from '@jest/globals';
 import '@testing-library/jest-dom'
 import { MeasurementService } from '../../services/measurement.service'
 import { act, render, screen, fireEvent } from '@testing-library/react'
@@ -8,7 +7,6 @@ jest.mock('../../services/measurement.service')
 const mockedMeasurementService = MeasurementService as jest.Mocked<
   typeof MeasurementService
 >
-const mockedSelectionChangeHandler = jest.fn()
 
 describe('measurement form component', () => {
   mockedMeasurementService.getAllMeasurements.mockResolvedValue([
@@ -19,10 +17,7 @@ describe('measurement form component', () => {
   test('form gets rendered correctly', async () => {
     await act(async () => {
       render(
-        <MeasurementSelector
-          onSelectionChange={mockedSelectionChangeHandler}
-          isMobile={false}
-        />
+        <MeasurementSelector isMobile={false} onSelectionChange={jest.fn()} />
       )
     })
 
@@ -32,10 +27,7 @@ describe('measurement form component', () => {
   test('clicking in the form open arrow displays the measurement options', async () => {
     await act(async () => {
       render(
-        <MeasurementSelector
-          onSelectionChange={mockedSelectionChangeHandler}
-          isMobile={false}
-        />
+        <MeasurementSelector isMobile={false} onSelectionChange={jest.fn()} />
       )
     })
 

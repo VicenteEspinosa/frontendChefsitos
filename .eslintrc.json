@@ -10,5 +10,5 @@
     "@typescript-eslint/no-explicit-any": "error",
     "@typescript-eslint/no-non-null-assertion": "off"
   },
-  "ignorePatterns": ["jest.config.js"]
+  "ignorePatterns": ["jest.config.js", "jest.config.coverage.js"]
 }
