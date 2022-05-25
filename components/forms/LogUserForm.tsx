@@ -40,14 +40,22 @@ export default function LogUserForm(props: {
       <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
         <div className={classes.control}>
           <label>Nombre de usuario</label>
-          <input type="text" {...register('username')} />
+          <input
+            data-testid="username-field"
+            type="text"
+            {...register('username')}
+          />
           <div className={classes['invalid-feedback']}>
             {errors.username?.message}
           </div>
         </div>
         <div className={classes.control}>
           <label>Contraseña</label>
-          <input type="password" {...register('password')} />
+          <input
+            data-testid="password-field"
+            type="password"
+            {...register('password')}
+          />
           <div className={classes['invalid-feedback']}>
             {errors.password?.message}
           </div>
