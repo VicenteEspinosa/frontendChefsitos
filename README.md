@@ -19,6 +19,13 @@ npm run dev
 yarn dev
 ```
 
+## Tests
+
+Para ejectar tests unitarios con jest:
+
+- `npm test`: corre todos los tests
+- `npm run test-coverage`: corre todos los tests y entrega un reporte de coverage al terminar (es más lento).
+
 Abrir [http://localhost:3000](http://localhost:3000) con el buscador para ver el proyecto.
 
 ## Habilitar Pre-commits
