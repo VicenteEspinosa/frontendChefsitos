@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router'
-import { ApiError } from '../../infrastructure/errors/api.error'
+import { ApiError } from '../../../infrastructure/errors/api.error'
 
 import { useEffect, useState } from 'react'
-import { RecipeService, Recipe } from '../../services/recipe.service'
-import Card from '../../components/ui/Card'
-import classes from './RecipePage.module.css'
-import { InternalCode } from '../../infrastructure/errors/internal-codes'
+import { RecipeService, Recipe } from '../../../services/recipe.service'
+import Card from '../../../components/ui/Card'
+import classes from '../RecipePage.module.css'
+import { InternalCode } from '../../../infrastructure/errors/internal-codes'
 
 export default function RecipePage() {
   const [recipe, setRecipe] = useState<Recipe | undefined>()
