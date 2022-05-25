@@ -41,7 +41,11 @@ export default function RecipePage() {
           <div className="flex">
             {recipe.picture_url && (
               <div className="left">
-                <img alt="picture" src={recipe.picture_url} />
+                <img
+                  className={classes.picture}
+                  alt="picture"
+                  src={recipe.picture_url}
+                />
               </div>
             )}
             <div className={classes.information}>
