@@ -18,7 +18,11 @@ describe('ingredient form component', () => {
   test('form gets rendered correctly', async () => {
     await act(async () => {
       render(
-        <IngredientSelector isMobile={false} onSelectionChange={jest.fn()} />
+        <IngredientSelector
+          initialId={1}
+          isMobile={false}
+          onSelectionChange={jest.fn()}
+        />
       )
     })
 

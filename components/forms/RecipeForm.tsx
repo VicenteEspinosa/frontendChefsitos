@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 import UploadImageForm from './UploadImageForm'
 import React, { useEffect, useState } from 'react'
 import Item from './Item'
-import { RecipeService } from '../../services/recipe.service'
+import { Recipe, RecipeService } from '../../services/recipe.service'
 import Alert from '../ui/Alert'
 import TagSelector from '../tags/Tag'
 import IngredientContainer from './IngredientContainer'
@@ -27,26 +27,52 @@ type IngredientItem = {
   ingredient_id: number | null
 }
 
-export default function NewRecipeForm(props: { isMobile: boolean }) {
+export default function RecipeForm(props: {
+  isMobile: boolean
+  recipe?: Recipe
+}) {
   const router = useRouter()
   const [alertMsg, setAlertMsg] = useState<string>('')
   const [itemsInfo, setItemsInfo] = useState<
     { url: undefined | string; body: undefined | string }[]
-  >([{ url: undefined, body: undefined }])
+  >(props.recipe ? props.recipe.items : [{ url: undefined, body: undefined }])
   const handleDeleteItem = (orderNumber: number) => {
     setItemsInfo(itemsInfo.filter((value, index) => index !== orderNumber))
   }
-  const [tagIds, setTagIds] = useState<number[]>([])
-  const [ingredients, setIngredients] = useState<IngredientItem[]>([
-    {
-      quantity: null,
-      measurement_id: null,
-      ingredient_id: null,
-    },
-  ])
-  const handleIngredientChange = (info: IngredientItem, index: number) => {
+  const [tagIds, setTagIds] = useState<number[]>(
+    props.recipe ? props.recipe.tags.map((tag) => tag.tag_id) : []
+  )
+  const [ingredients, setIngredients] = useState<IngredientItem[]>(
+    props.recipe
+      ? props.recipe.ingredients.map((item) => ({
+          quantity: item.quantity,
+          measurement_id: item.measurement_id,
+          ingredient_id: item.ingredient_id,
+        }))
+      : [
+          {
+            quantity: null,
+            measurement_id: null,
+            ingredient_id: null,
+          },
+        ]
+  )
+  const handleIngredientChange = (
+    index: number,
+    quantity?: number | null,
+    measurement_id?: number | null,
+    ingredient_id?: number | null
+  ) => {
     const newIngredients = [...ingredients]
-    newIngredients[index] = info
+    if (quantity !== undefined) {
+      newIngredients[index].quantity = quantity
+    }
+    if (measurement_id !== undefined) {
+      newIngredients[index].measurement_id = measurement_id
+    }
+    if (ingredient_id !== undefined) {
+      newIngredients[index].ingredient_id = ingredient_id
+    }
     setIngredients(newIngredients)
   }
   const handleIngredientRemove = (ingredientIndex: number) => {
@@ -59,6 +85,7 @@ export default function NewRecipeForm(props: { isMobile: boolean }) {
     for (let i = 0; i < ingredients.length; i++) {
       newIngredientComponents.push(
         <IngredientContainer
+          initialValues={props.recipe ? props.recipe.ingredients[i] : undefined}
           key={i}
           isMobile={props.isMobile}
           index={i}
@@ -108,13 +135,22 @@ export default function NewRecipeForm(props: { isMobile: boolean }) {
     setItems(newItems)
   }, [itemsInfo])
   const [items, setItems] = useState<React.ReactElement[]>([])
-  const [pictureUrl, setPictureUrl] = useState('')
+  const [pictureUrl, setPictureUrl] = useState(
+    props.recipe ? props.recipe.picture_url : ''
+  )
+  const [recipeName, setRecipeName] = useState(
+    props.recipe ? props.recipe.name : ''
+  )
+  const [recipeDescription, setRecipeDescription] = useState(
+    props.recipe ? props.recipe.description : ''
+  )
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required('El nombre es requerido'),
-    description: Yup.string(),
-    private: Yup.boolean().default(false),
+    name: Yup.string()
+      .required('El nombre es requerido')
+      .default(props.recipe?.name),
+    description: Yup.string().default(props.recipe?.description),
+    private: Yup.boolean().default(props.recipe ? props.recipe.private : false),
   })
-
   const {
     register,
     handleSubmit,
@@ -138,8 +174,10 @@ export default function NewRecipeForm(props: { isMobile: boolean }) {
     }
     setAlertMsg('')
     try {
-      const recipe = await RecipeService.create({
+      const recipeData = {
         ...data,
+        name: recipeName,
+        description: recipeDescription,
         picture_url: pictureUrl,
         items: itemsInfo.map((item, index) => ({
           ...item,
@@ -151,7 +189,13 @@ export default function NewRecipeForm(props: { isMobile: boolean }) {
           measurement_id: item.measurement_id!,
           quantity: item.quantity!,
         })),
-      })
+      }
+      let recipe
+      if (props.recipe) {
+        recipe = await RecipeService.edit(props.recipe.id, recipeData)
+      } else {
+        recipe = await RecipeService.create(recipeData)
+      }
       router.push(`/recipes/${recipe.id}`)
     } catch (error) {
       throw error
@@ -194,7 +238,12 @@ export default function NewRecipeForm(props: { isMobile: boolean }) {
           <div className="left">
             <div className={baseClasses.control}>
               <label>Nombre</label>
-              <input type="text" {...register('name')} />
+              <input
+                type="text"
+                {...register('name')}
+                value={recipeName}
+                onChange={(e) => setRecipeName(e.target.value)}
+              />
               <div className={baseClasses['invalid-feedback']}>
                 {errors.name?.message}
               </div>
@@ -202,17 +251,26 @@ export default function NewRecipeForm(props: { isMobile: boolean }) {
 
             <div className={baseClasses.control}>
               <label>Descripción</label>
-              <textarea {...register('description')} />
+              <textarea
+                {...register('description')}
+                value={recipeDescription}
+                onChange={(e) => setRecipeDescription(e.target.value)}
+              />
             </div>
             <div className={baseClasses.control}>
               <div className={baseClasses.checkbox}>
-                <input type="checkbox" {...register('private')} />
+                <input
+                  type="checkbox"
+                  {...register('private')}
+                  defaultChecked={props.recipe ? props.recipe.private : false}
+                />
                 <label>Privada</label>
               </div>
             </div>
           </div>
           <div className={baseClasses.picture}>
             <UploadImageForm
+              image={props.recipe?.picture_url}
               handleUpload={onPictureUpload}
               showImagePreview={true}
             />
@@ -220,6 +278,7 @@ export default function NewRecipeForm(props: { isMobile: boolean }) {
         </div>
         <div className={classes.tags}>
           <TagSelector
+            initialValues={tagIds}
             onSelectionChange={handleTagsChange}
             isMobile={props.isMobile}
           />

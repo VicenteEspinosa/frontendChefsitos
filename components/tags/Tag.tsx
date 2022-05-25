@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { TagService, Tag } from '../../services/tag.service'
 
 export default function TagSelector(props: {
+  initialValues?: number[]
   isMobile: boolean
   onSelectionChange: (ids: number[]) => void
 }) {
@@ -32,6 +33,11 @@ export default function TagSelector(props: {
     if (fetchLoad) {
       setData(fetchLoad)
     }
+    if (props.initialValues) {
+      setTagChosen(
+        fetchLoad!.filter((tag) => props.initialValues!.includes(tag.id))
+      )
+    }
     return
   }
 
@@ -50,6 +56,7 @@ export default function TagSelector(props: {
   return (
     <>
       <Autocomplete
+        value={tagChosen ? tagChosen : []}
         onChange={(event: object, value: Tag[] | null, reason: string) => {
           if (reason === 'selectOption' || reason === 'removeOption') {
             setTagChosen(value)

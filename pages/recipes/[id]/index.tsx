@@ -1,13 +1,14 @@
 import { useRouter } from 'next/router'
-import { ApiError } from '../../infrastructure/errors/api.error'
+import { ApiError } from '../../../infrastructure/errors/api.error'
 
 import { useEffect, useState } from 'react'
-import { RecipeService, Recipe } from '../../services/recipe.service'
-import Card from '../../components/ui/Card'
-import classes from './RecipePage.module.css'
-import { InternalCode } from '../../infrastructure/errors/internal-codes'
+import { RecipeService, Recipe } from '../../../services/recipe.service'
+import Card from '../../../components/ui/Card'
+import classes from '../RecipePage.module.css'
+import { InternalCode } from '../../../infrastructure/errors/internal-codes'
 import Chip from '@mui/material/Chip'
 import DeleteIcon from '@mui/icons-material/Delete'
+import Link from 'next/link'
 
 export default function RecipePage() {
   const [recipe, setRecipe] = useState<Recipe | undefined>()
@@ -57,14 +58,17 @@ export default function RecipePage() {
         <Card>
           <div className={classes.flexHeader}>
             <h1>{recipe.name}</h1>
-            <Chip
-              label="Borrar Receta"
-              onClick={handleDelete}
-              onDelete={handleDelete}
-              deleteIcon={<DeleteIcon />}
-              variant="outlined"
-              color="error"
-            />
+            <div>
+              <Chip
+                label="Borrar Receta"
+                onClick={handleDelete}
+                onDelete={handleDelete}
+                deleteIcon={<DeleteIcon />}
+                variant="outlined"
+                color="error"
+              />
+              <Link href={`/recipes/${recipe!.id}/edit`}>Editar</Link>
+            </div>
           </div>
           <div className="flex">
             {recipe.picture_url && (

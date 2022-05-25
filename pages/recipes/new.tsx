@@ -1,5 +1,5 @@
-import NewRecipeForm from '../../components/forms/NewRecipeForm'
+import RecipeForm from '../../components/forms/RecipeForm'
 
 export default function NewRecipePage(props: { isMobile: boolean }) {
-  return <NewRecipeForm isMobile={props.isMobile} />
+  return <RecipeForm isMobile={props.isMobile} />
 }

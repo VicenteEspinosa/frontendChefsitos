@@ -1,23 +1,27 @@
 .information {
-    padding: 0 1rem;
-    width: max-content;
+  padding: 0 1rem;
+  width: max-content;
 }
 
 .order-number {
-    width: fit-content;
+  width: fit-content;
 }
 
 .item img {
-    display: block;
-    width: -webkit-fill-available;
+  display: block;
+  width: -webkit-fill-available;
 }
 
 .picture {
-    width: -webkit-fill-available;
+  width: -webkit-fill-available;
 }
 
 .flexHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flexHeader a {
+  padding: 0 0.5rem;
 }

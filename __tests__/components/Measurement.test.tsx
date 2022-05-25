@@ -17,7 +17,11 @@ describe('measurement form component', () => {
   test('form gets rendered correctly', async () => {
     await act(async () => {
       render(
-        <MeasurementSelector isMobile={false} onSelectionChange={jest.fn()} />
+        <MeasurementSelector
+          initialId={1}
+          onSelectionChange={jest.fn()}
+          isMobile={false}
+        />
       )
     })
 
@@ -27,7 +31,11 @@ describe('measurement form component', () => {
   test('clicking in the form open arrow displays the measurement options', async () => {
     await act(async () => {
       render(
-        <MeasurementSelector isMobile={false} onSelectionChange={jest.fn()} />
+        <MeasurementSelector
+          initialId={1}
+          onSelectionChange={jest.fn()}
+          isMobile={false}
+        />
       )
     })
 

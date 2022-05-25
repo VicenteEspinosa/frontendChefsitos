@@ -6,6 +6,7 @@ import {
 } from '../../services/measurement.service'
 
 export default function MeasurementSelector(props: {
+  initialId?: number
   isMobile: boolean
   onSelectionChange: (measurementId: number | null) => void
 }) {
@@ -21,6 +22,17 @@ export default function MeasurementSelector(props: {
   useEffect(() => {
     props.onSelectionChange(measurementChosen ? measurementChosen.id : null)
   }, [measurementChosen])
+
+  useEffect(() => {
+    if (props.initialId) {
+      const initialMeasurement = data!.find(
+        (measurement) => props.initialId === measurement.id
+      )
+      if (initialMeasurement) {
+        setMeasurementChosen(initialMeasurement)
+      }
+    }
+  }, [props.initialId, data])
 
   const getList = async () => {
     const preload = MeasurementService.measurementArrayValue
@@ -50,6 +62,7 @@ export default function MeasurementSelector(props: {
   return (
     <>
       <Autocomplete
+        value={measurementChosen}
         onChange={(
           event: object,
           value: Measurement | null,

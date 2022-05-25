@@ -16,6 +16,7 @@ import {
 } from '../../services/ingredient.service'
 
 export default function IngredientSelector(props: {
+  initialId: number | undefined
   isMobile: boolean
   onSelectionChange: (ingredientId: number | null) => void
 }) {
@@ -36,6 +37,17 @@ export default function IngredientSelector(props: {
   useEffect(() => {
     props.onSelectionChange(ingredientChosen ? ingredientChosen.id : null)
   }, [ingredientChosen])
+
+  useEffect(() => {
+    if (props.initialId) {
+      const initialIngredient = data!.find(
+        (ingredient) => props.initialId === ingredient.id
+      )
+      if (initialIngredient) {
+        setIngredientChosen(initialIngredient)
+      }
+    }
+  }, [props.initialId, data])
 
   const getList = async () => {
     const fetchLoad = await onIngredientFetch()
