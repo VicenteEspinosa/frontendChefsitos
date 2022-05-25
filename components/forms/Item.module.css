@@ -1,0 +1,47 @@
+.item button {
+  font-size: small;
+  padding: 0 0.5rem;
+}
+
+.delete-button-container {
+  text-align: end;
+  width: 100%;
+}
+
+.button {
+  background-color: #77002e;
+  color: white;
+  border: 1px solid #77002e;
+  border-radius: 4px;
+}
+
+.number-order {
+  float: left;
+}
+
+.item textarea {
+  width: 100%;
+  font: inherit;
+}
+
+.item img {
+  width: 700px;
+}
+
+.item input::-webkit-file-upload-button {
+  font: inherit;
+  font-size: small;
+  cursor: pointer;
+  background-color: #77002e;
+  color: white;
+  padding: 0 0.5rem;
+  border: 1px solid #77002e;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.item input::-webkit-file-upload-button:hover,
+.item input::-webkit-file-upload-button:active {
+  background-color: #a50e48;
+  border-color: #a50e48;
+}

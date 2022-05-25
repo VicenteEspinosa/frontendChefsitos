@@ -1,0 +1,93 @@
+.form {
+  padding: 1rem;
+}
+
+.control {
+  margin-bottom: 0.5rem;
+}
+
+.form label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.control input,
+.control textarea {
+  display: block;
+  font: inherit;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  padding: 0.25rem;
+  width: 200px;
+}
+
+.checkbox input {
+  width: fit-content;
+  float: left;
+}
+
+.actions {
+  margin-top: 1rem;
+  text-align: right;
+}
+
+.form-button {
+  font: inherit;
+  cursor: pointer;
+  background-color: #77002e;
+  color: white;
+  border: 1px solid #77002e;
+  border-radius: 4px;
+  font-weight: bold;
+  padding: 0.5rem 1.5rem;
+}
+
+.actions button {
+  font-size: large;
+  padding: 1rem 1.5rem;
+}
+
+.form button:hover,
+.form button:active {
+  background-color: #a50e48;
+  border-color: #a50e48;
+}
+
+.invalid-feedback {
+  color: red;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.link {
+  text-align: right;
+}
+
+.link p {
+  margin: 0 25px;
+}
+
+.picture img {
+  max-height: 200px;
+  margin-top: 0.5rem;
+}
+
+.picture input::-webkit-file-upload-button {
+  font: inherit;
+  cursor: pointer;
+  background-color: #77002e;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border: 1px solid #77002e;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.picture input::-webkit-file-upload-button:hover,
+.picture input::-webkit-file-upload-button:active {
+  background-color: #a50e48;
+  border-color: #a50e48;
+}

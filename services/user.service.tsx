@@ -1,13 +1,31 @@
-import { NewUserDto, LogUserDto } from '../dtos/user.dto'
+import { NewUserDto, EditUserDto, LogUserDto } from '../dtos/user.dto'
 import BaseService from './base.service'
 import { BehaviorSubject } from 'rxjs'
 
 const pathPrefix = 'users/'
 
+async function edit(userData: EditUserDto) {
+  return BaseService.request(
+    pathPrefix,
+    'edit/',
+    BaseService.RequestMethod.Post,
+    JSON.stringify(userData)
+  )
+}
+
+async function delete_user() {
+  return BaseService.request(
+    pathPrefix,
+    'delete/',
+    BaseService.RequestMethod.Delete,
+    ''
+  )
+}
+
 async function signup(userData: NewUserDto) {
   return BaseService.request(
     pathPrefix,
-    'signup',
+    'signup/',
     BaseService.RequestMethod.Post,
     JSON.stringify(userData)
   )
@@ -16,7 +34,7 @@ async function signup(userData: NewUserDto) {
 async function signin(logUserData: LogUserDto) {
   const user = await BaseService.request(
     pathPrefix,
-    'signin',
+    'signin/',
     BaseService.RequestMethod.Post,
     JSON.stringify(logUserData)
   )
@@ -31,7 +49,7 @@ const userSubject = new BehaviorSubject(
 async function signout() {
   await BaseService.request(
     pathPrefix,
-    'signout',
+    'signout/',
     BaseService.RequestMethod.Post,
     JSON.stringify({ data: { user: UserService.userValue?.username } })
   )
@@ -49,4 +67,6 @@ export const UserService = {
   signup,
   signin,
   signout,
+  edit,
+  delete_user,
 }

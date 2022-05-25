@@ -25,6 +25,15 @@ function MainNavigation(props: { isMobile: boolean; onLogout: () => void }) {
             {user && (
               <ul>
                 <li>
+                  <Link href="/my-recipes">Mis Recetas</Link>
+                </li>
+                <li>
+                  <Link href="/profile">Mi Perfil</Link>
+                </li>
+                <li>
+                  <Link href="/recipes/new">Crear receta</Link>
+                </li>
+                <li>
                   <a onClick={onLogoutClick}>Cerrar sesión</a>
                 </li>
               </ul>
