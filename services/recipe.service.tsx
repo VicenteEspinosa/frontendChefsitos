@@ -65,6 +65,15 @@ async function get(recipeId: number) {
   )
 }
 
+async function delete_recipe(recipeId: string) {
+  return BaseService.request(
+    pathPrefix,
+    `${recipeId}/`,
+    BaseService.RequestMethod.Delete,
+    ''
+  )
+}
+
 async function myRecipes() {
   return BaseService.request(
     pathPrefix,
@@ -88,4 +97,5 @@ export const RecipeService = {
   get,
   myRecipes,
   edit,
+  delete_recipe,
 }

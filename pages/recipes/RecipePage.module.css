@@ -15,3 +15,13 @@
 .picture {
   width: -webkit-fill-available;
 }
+
+.flexHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flexHeader a {
+  padding: 0 0.5rem;
+}
