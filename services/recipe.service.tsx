@@ -6,13 +6,33 @@ const pathPrefix = 'recipes/'
 
 export interface Recipe {
   id: number
-  user_id: number
-  private: boolean
   name: string
-  description: string
   picture_url: string
+  description: string
+  private: boolean
+  user_id: number
+  items: Item[]
+  ingredients: Ingredients[]
+  tags: Tag[]
   created_at: Date
   updated_at: Date
+}
+
+interface Item {
+  url: string
+  body: string
+  order_number: number
+}
+
+interface Ingredients {
+  ingredient_name: string
+  measurement_name: string
+  quantity: number
+}
+
+interface Tag {
+  tag_name: string
+  tag_placeholder_url: string
 }
 
 async function create(recipeData: NewRecipeDto) {

@@ -11,6 +11,7 @@ import { RecipeService } from '../../services/recipe.service'
 import Alert from '../ui/Alert'
 import TagSelector from '../tags/Tag'
 import IngredientContainer from './IngredientContainer'
+import { useRouter } from 'next/router'
 
 type RecipeSubmitForm = {
   name: string
@@ -27,6 +28,7 @@ type IngredientItem = {
 }
 
 export default function NewRecipeForm(props: { isMobile: boolean }) {
+  const router = useRouter()
   const [alertMsg, setAlertMsg] = useState<string>('')
   const [itemsInfo, setItemsInfo] = useState<
     { url: undefined | string; body: undefined | string }[]
@@ -136,7 +138,7 @@ export default function NewRecipeForm(props: { isMobile: boolean }) {
     }
     setAlertMsg('')
     try {
-      await RecipeService.create({
+      const recipe = await RecipeService.create({
         ...data,
         picture_url: pictureUrl,
         items: itemsInfo.map((item, index) => ({
@@ -150,6 +152,7 @@ export default function NewRecipeForm(props: { isMobile: boolean }) {
           quantity: item.quantity!,
         })),
       })
+      router.push(`/recipes/${recipe.id}`)
     } catch (error) {
       throw error
     }
