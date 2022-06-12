@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import FeedSelector from '../../components/recipes/FeedSelector'
 import classes from './RecipePage.module.css'
 
-export default function MyRecipesPage() {
+export default function RecipesPage() {
   const authContext = useContext(AuthContext)
   const [orderByPopularity, setOrderByPopularity] = useState(true)
   const router = useRouter()
@@ -21,10 +21,14 @@ export default function MyRecipesPage() {
 
   return (
     <>
-      <div className={classes['selector-container']}>
-        <FeedSelector handleOrderByPopularity={handleOrderByPopularity} />
-      </div>
-      <Recipes orderByPopularity={orderByPopularity} />
+      {authContext.user && (
+        <>
+          <div className={classes['selector-container']}>
+            <FeedSelector handleOrderByPopularity={handleOrderByPopularity} />
+          </div>
+          <Recipes orderByPopularity={orderByPopularity} />
+        </>
+      )}
     </>
   )
 }
