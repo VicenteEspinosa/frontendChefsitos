@@ -20,8 +20,7 @@ async function getAllTags() {
 }
 
 const tagArraySubject = new BehaviorSubject(
-  process.browser &&
-    JSON.parse(localStorage.getItem('tagtArray') || '{}')
+  process.browser && JSON.parse(localStorage.getItem('tagtArray') || '{}')
 )
 
 export const TagService = {
