@@ -7,7 +7,8 @@ import Avatar from '@mui/material/Avatar'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import { red } from '@mui/material/colors'
-import FavoriteIcon from '@mui/icons-material/Favorite'
+import ThumbUpIcon from '@mui/icons-material/ThumbUp'
+import ThumbDownIcon from '@mui/icons-material/ThumbDown'
 import { RecipeService, Recipe } from '../../services/recipe.service'
 import { useEffect, useState } from 'react'
 import classes from './Recipe.module.css'
@@ -39,6 +40,10 @@ export default function Recipes(props: {
 
   const like = () => {
     console.log('Like')
+  }
+
+  const dislike = () => {
+    console.log('Dislike')
   }
 
   async function onRecipesFetch() {
@@ -115,9 +120,14 @@ export default function Recipes(props: {
           <CardActions disableSpacing>
             <IconButton aria-label="add to favorites" onClick={like}>
               {/* TODO pintar rojo si ya tiene like */}
-              <FavoriteIcon sx={{ color: 'white' }} />
+              <ThumbUpIcon sx={{ color: 'white' }} />
             </IconButton>
-            {recipe.likes.length}
+            {recipe.ratings.filter((rating) => rating.like).length}
+            <IconButton aria-label="add to favorites" onClick={dislike}>
+              {/* TODO pintar rojo si ya tiene like */}
+              <ThumbDownIcon sx={{ color: 'white' }} />
+            </IconButton>
+            {recipe.ratings.filter((rating) => !rating.like).length}
             {/* Aqui van los tags */}
           </CardActions>
         </Card>

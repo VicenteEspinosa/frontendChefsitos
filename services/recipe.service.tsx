@@ -14,7 +14,7 @@ export interface Recipe {
   items: Item[]
   ingredients: Ingredients[]
   tags: Tag[]
-  likes: Like[]
+  ratings: Rating[]
   created_at: Date
   updated_at: Date
 }
@@ -39,9 +39,10 @@ interface Tag {
   tag_placeholder_url: string
 }
 
-interface Like {
+interface Rating {
   recipe_id: number
   user_id: number
+  like: boolean
 }
 
 async function create(recipeData: NewRecipeDto) {
