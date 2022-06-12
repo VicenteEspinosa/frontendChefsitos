@@ -42,7 +42,7 @@ export default function Recipes(props: { myRecipes?: boolean }) {
     try {
       const recipesArray = props.myRecipes
         ? await RecipeService.myRecipes()
-        : null // Get todas las recetas
+        : await RecipeService.feed()
       if (recipesArray) {
         return recipesArray
       }
@@ -77,7 +77,7 @@ export default function Recipes(props: { myRecipes?: boolean }) {
               ></Avatar>
             }
             title={recipe.name}
-            sx={{ color: 'white' }}
+            sx={{ color: 'white', 'text-transform': 'capitalize' }}
             subheader={new Date(recipe.created_at).toLocaleDateString('es-ES', {
               year: 'numeric',
               month: 'long',
@@ -112,6 +112,7 @@ export default function Recipes(props: { myRecipes?: boolean }) {
               {/* TODO pintar rojo si ya tiene like */}
               <FavoriteIcon sx={{ color: 'white' }} />
             </IconButton>
+            {recipe.likes.length}
             {/* Aqui van los tags */}
           </CardActions>
         </Card>
