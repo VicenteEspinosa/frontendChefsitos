@@ -1,10 +1,13 @@
 import Recipes from '../../components/recipes/Recipes'
 import AuthContext from '../../contexts/auth-context'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import FeedSelector from '../../components/recipes/FeedSelector'
+import classes from './RecipePage.module.css'
 
 export default function MyRecipesPage() {
   const authContext = useContext(AuthContext)
+  const [orderByPopularity, setOrderByPopularity] = useState(true)
   const router = useRouter()
   useEffect(() => {
     if (!authContext.user) {
@@ -12,5 +15,16 @@ export default function MyRecipesPage() {
     }
   })
 
-  return <Recipes />
+  const handleOrderByPopularity = (value: boolean) => {
+    setOrderByPopularity(value)
+  }
+
+  return (
+    <>
+      <div className={classes['selector-container']}>
+        <FeedSelector handleOrderByPopularity={handleOrderByPopularity} />
+      </div>
+      <Recipes orderByPopularity={orderByPopularity} />
+    </>
+  )
 }

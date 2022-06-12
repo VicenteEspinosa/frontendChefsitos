@@ -13,13 +13,16 @@ import { useEffect, useState } from 'react'
 import classes from './Recipe.module.css'
 import { useRouter } from 'next/router'
 
-export default function Recipes(props: { myRecipes?: boolean }) {
+export default function Recipes(props: {
+  myRecipes?: boolean
+  orderByPopularity?: boolean
+}) {
   const [data, setData] = useState([] as Recipe[])
   const router = useRouter()
 
   useEffect(() => {
     getList()
-  }, [])
+  }, [props.orderByPopularity])
 
   const getList = async () => {
     const preload = RecipeService.recipeArrayValue
@@ -42,7 +45,9 @@ export default function Recipes(props: { myRecipes?: boolean }) {
     try {
       const recipesArray = props.myRecipes
         ? await RecipeService.myRecipes()
-        : await RecipeService.feed()
+        : await RecipeService.feed(
+            props.orderByPopularity ? 'popularity' : undefined
+          )
       if (recipesArray) {
         return recipesArray
       }
@@ -77,7 +82,7 @@ export default function Recipes(props: { myRecipes?: boolean }) {
               ></Avatar>
             }
             title={recipe.name}
-            sx={{ color: 'white', 'text-transform': 'capitalize' }}
+            sx={{ color: 'white', textTransform: 'capitalize' }}
             subheader={new Date(recipe.created_at).toLocaleDateString('es-ES', {
               year: 'numeric',
               month: 'long',
