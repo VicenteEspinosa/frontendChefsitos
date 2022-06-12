@@ -6,7 +6,7 @@ import Avatar from '@mui/material/Avatar'
 import Card from '../../components/ui/Card'
 import Recipes from '../../components/recipes/Recipes'
 
-export default function LoginPage() {
+export default function ProfilePage() {
   // const [entityNotFound, setEntityNotFound] = useState(false)
   const router = useRouter()
   const { user } = useContext(AuthContext)
