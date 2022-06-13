@@ -14,6 +14,7 @@ export interface Recipe {
   items: Item[]
   ingredients: Ingredients[]
   tags: Tag[]
+  ratings: Rating[]
   created_at: Date
   updated_at: Date
 }
@@ -36,6 +37,12 @@ interface Tag {
   tag_id: number
   tag_name: string
   tag_placeholder_url: string
+}
+
+interface Rating {
+  recipe_id: number
+  user_id: number
+  like: boolean
 }
 
 async function create(recipeData: NewRecipeDto) {
@@ -83,6 +90,19 @@ async function myRecipes() {
   )
 }
 
+async function feed(orderBy?: string) {
+  const basePathSufix = 'feed/'
+  const pathSufix = orderBy
+    ? `${basePathSufix}?order_by=${orderBy}`
+    : basePathSufix
+  return BaseService.request(
+    pathPrefix,
+    pathSufix,
+    BaseService.RequestMethod.Get,
+    ''
+  )
+}
+
 const recipeArraySubject = new BehaviorSubject(
   process.browser && JSON.parse(localStorage.getItem('recipeArray') || '{}')
 )
@@ -98,4 +118,5 @@ export const RecipeService = {
   myRecipes,
   edit,
   delete_recipe,
+  feed,
 }

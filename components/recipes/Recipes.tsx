@@ -7,19 +7,23 @@ import Avatar from '@mui/material/Avatar'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import { red } from '@mui/material/colors'
-import FavoriteIcon from '@mui/icons-material/Favorite'
+import ThumbUpIcon from '@mui/icons-material/ThumbUp'
+import ThumbDownIcon from '@mui/icons-material/ThumbDown'
 import { RecipeService, Recipe } from '../../services/recipe.service'
 import { useEffect, useState } from 'react'
 import classes from './Recipe.module.css'
 import { useRouter } from 'next/router'
 
-export default function Recipes(props: { myRecipes?: boolean }) {
+export default function Recipes(props: {
+  myRecipes?: boolean
+  orderByPopularity?: boolean
+}) {
   const [data, setData] = useState([] as Recipe[])
   const router = useRouter()
 
   useEffect(() => {
     getList()
-  }, [])
+  }, [props.orderByPopularity])
 
   const getList = async () => {
     const preload = RecipeService.recipeArrayValue
@@ -38,11 +42,17 @@ export default function Recipes(props: { myRecipes?: boolean }) {
     console.log('Like')
   }
 
+  const dislike = () => {
+    console.log('Dislike')
+  }
+
   async function onRecipesFetch() {
     try {
       const recipesArray = props.myRecipes
         ? await RecipeService.myRecipes()
-        : null // Get todas las recetas
+        : await RecipeService.feed(
+            props.orderByPopularity ? 'popularity' : undefined
+          )
       if (recipesArray) {
         return recipesArray
       }
@@ -77,7 +87,7 @@ export default function Recipes(props: { myRecipes?: boolean }) {
               ></Avatar>
             }
             title={recipe.name}
-            sx={{ color: 'white' }}
+            sx={{ color: 'white', textTransform: 'capitalize' }}
             subheader={new Date(recipe.created_at).toLocaleDateString('es-ES', {
               year: 'numeric',
               month: 'long',
@@ -110,8 +120,14 @@ export default function Recipes(props: { myRecipes?: boolean }) {
           <CardActions disableSpacing>
             <IconButton aria-label="add to favorites" onClick={like}>
               {/* TODO pintar rojo si ya tiene like */}
-              <FavoriteIcon sx={{ color: 'white' }} />
+              <ThumbUpIcon sx={{ color: 'white' }} />
             </IconButton>
+            {recipe.ratings.filter((rating) => rating.like).length}
+            <IconButton aria-label="add to favorites" onClick={dislike}>
+              {/* TODO pintar rojo si ya tiene like */}
+              <ThumbDownIcon sx={{ color: 'white' }} />
+            </IconButton>
+            {recipe.ratings.filter((rating) => !rating.like).length}
             {/* Aqui van los tags */}
           </CardActions>
         </Card>

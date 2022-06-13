@@ -18,6 +18,7 @@ describe('recipes component', () => {
       picture_url: 'https://google.cl',
       created_at: Date.now(),
       updated_at: Date.now(),
+      ratings: [],
     },
     {
       id: 2,
@@ -28,6 +29,7 @@ describe('recipes component', () => {
       picture_url: 'https://google.cl',
       created_at: Date.now(),
       updated_at: Date.now(),
+      ratings: [],
     },
   ])
 
