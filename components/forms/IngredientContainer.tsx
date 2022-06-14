@@ -33,6 +33,9 @@ export default function IngredientContainer(props: {
   const handleMeasurementChange = (measurement_id: number | null) => {
     props.onChange(props.index, undefined, measurement_id)
   }
+  const blockInvalidChars = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault()
+  }
   const handleQuantityChange = () => {
     const quantity =
       quantityRef.current!.value.length > 0
@@ -59,6 +62,7 @@ export default function IngredientContainer(props: {
         className="left"
         type="number"
         min={1}
+        onKeyDown={blockInvalidChars}
         onChange={handleQuantityChange}
       />
       <MeasurementSelector
