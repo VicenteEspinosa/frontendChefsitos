@@ -160,6 +160,13 @@ export default function RecipeForm(props: {
   })
 
   const onSubmit = async (data: RecipeSubmitForm) => {
+    const ingredients_ids = ingredients.map((ingredient) => {
+      return ingredient.ingredient_id
+    })
+    if ((new Set(ingredients_ids)).size !== ingredients_ids.length) {
+      setAlertMsg('No puedes tener ingredientes repetidos')
+      return
+    }
     if (itemsInfo.some((item) => !item.url && !item.body)) {
       setAlertMsg('Las instrucciones deben tener una imagen o una descripción')
       return
