@@ -2,17 +2,14 @@ import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
 import CardMedia from '@mui/material/CardMedia'
 import CardContent from '@mui/material/CardContent'
-import CardActions from '@mui/material/CardActions'
 import Avatar from '@mui/material/Avatar'
-import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import { red } from '@mui/material/colors'
-import ThumbUpIcon from '@mui/icons-material/ThumbUp'
-import ThumbDownIcon from '@mui/icons-material/ThumbDown'
 import { RecipeService, Recipe } from '../../services/recipe.service'
 import { useEffect, useState } from 'react'
 import classes from './Recipe.module.css'
 import { useRouter } from 'next/router'
+import Like from './Like'
 
 export default function Recipes(props: {
   myRecipes?: boolean
@@ -36,14 +33,6 @@ export default function Recipes(props: {
       setData(fetchLoad)
     }
     return
-  }
-
-  const like = () => {
-    console.log('Like')
-  }
-
-  const dislike = () => {
-    console.log('Dislike')
   }
 
   async function onRecipesFetch() {
@@ -117,19 +106,7 @@ export default function Recipes(props: {
               {recipe.description}
             </Typography>
           </CardContent>
-          <CardActions disableSpacing>
-            <IconButton aria-label="add to favorites" onClick={like}>
-              {/* TODO pintar rojo si ya tiene like */}
-              <ThumbUpIcon sx={{ color: 'white' }} />
-            </IconButton>
-            {recipe.ratings.filter((rating) => rating.like).length}
-            <IconButton aria-label="add to favorites" onClick={dislike}>
-              {/* TODO pintar rojo si ya tiene like */}
-              <ThumbDownIcon sx={{ color: 'white' }} />
-            </IconButton>
-            {recipe.ratings.filter((rating) => !rating.like).length}
-            {/* Aqui van los tags */}
-          </CardActions>
+          <Like ratings={recipe.ratings} />
         </Card>
       ))}
     </div>
