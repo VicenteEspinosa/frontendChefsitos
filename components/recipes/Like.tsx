@@ -1,4 +1,4 @@
-import { Rating } from '../../services/recipe.service'
+import { Rating, RecipeService } from '../../services/recipe.service'
 import CardActions from '@mui/material/CardActions'
 import IconButton from '@mui/material/IconButton'
 import ThumbUpIcon from '@mui/icons-material/ThumbUp'
@@ -6,50 +6,97 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown'
 import { useContext, useState, useEffect } from 'react'
 import AuthContext from '../../contexts/auth-context'
 
-export default function Like(props: { ratings: Rating[] }) {
+export default function Like(props: { recipeId: number; ratings: Rating[] }) {
+  const [ratings, setRatings] = useState(props.ratings)
   const [likes, setLikes] = useState(0)
   const [dislikes, setDislikes] = useState(0)
-  const [like, setLike] = useState(false)
-  const [dislike, setDislike] = useState(false)
+  const [like, setLike] = useState<boolean | undefined>(undefined)
   const { user } = useContext(AuthContext)
 
   useEffect(() => {
-    if (props.ratings && user) {
-      const likeRatings = props.ratings.filter((rating) => rating.like)
+    if (ratings && user) {
+      const likeRatings = ratings.filter((rating) => rating.like)
       setLikes(likeRatings.length)
-      setDislikes(props.ratings.length - likeRatings.length)
+      setDislikes(ratings.length - likeRatings.length)
       let userIds = likeRatings.map((rating) => rating.user_id)
       if (userIds.includes(user.id)) {
         setLike(true)
       } else {
-        userIds = props.ratings.reduce((filtered: number[], rating) => {
+        userIds = ratings.reduce((filtered: number[], rating) => {
           if (!rating.like) {
             filtered.push(rating.user_id)
           }
           return filtered
         }, [])
-        if (userIds.includes(user.id)) setDislike(true)
+        if (userIds.includes(user.id)) setLike(false)
       }
     }
-  }, [props.ratings])
-  const likeHandle = () => {
-    console.log('Like')
+  }, [ratings])
+
+  const updateRatings = (newLike: boolean | undefined) => {
+    let newRatings
+    if (!ratings.some((rating) => rating.user_id === user!.id)) {
+      newRatings = [...ratings]
+      newRatings.push({
+        recipe_id: props.recipeId,
+        user_id: user!.id,
+        like: newLike ? true : false,
+      })
+    } else if (newLike !== undefined) {
+      newRatings = ratings.map((rating) => {
+        if (rating.user_id === user!.id) {
+          const newRating = { ...rating }
+          newRating.like = newLike ? true : false
+          return newRating
+        }
+        return rating
+      })
+    } else {
+      newRatings = ratings.filter((rating) => rating.user_id !== user!.id)
+    }
+    setRatings(newRatings)
   }
 
-  const dislikeHandle = () => {
-    console.log('Dislike')
+  const likeHandle = async () => {
+    try {
+      if (like) {
+        await RecipeService.deleteRate(props.recipeId)
+        setLike(undefined)
+        updateRatings(undefined)
+      } else {
+        await RecipeService.rate(props.recipeId, true)
+        setLike(true)
+        updateRatings(true)
+      }
+    } catch (error) {
+      throw error
+    }
+  }
+
+  const dislikeHandle = async () => {
+    try {
+      if (like === false) {
+        await RecipeService.deleteRate(props.recipeId)
+        setLike(undefined)
+        updateRatings(undefined)
+      } else {
+        await RecipeService.rate(props.recipeId, false)
+        setLike(false)
+        updateRatings(false)
+      }
+    } catch (error) {
+      throw error
+    }
   }
 
   return (
     <CardActions disableSpacing>
       <IconButton aria-label="add to favorites" onClick={likeHandle}>
-        {/* TODO pintar rojo si ya tiene like */}
         <ThumbUpIcon sx={{ color: like ? 'brown' : 'white' }} />
       </IconButton>
       {likes}
       <IconButton aria-label="add to favorites" onClick={dislikeHandle}>
-        {/* TODO pintar rojo si ya tiene like */}
-        <ThumbDownIcon sx={{ color: dislike ? 'brown' : 'white' }} />
+        <ThumbDownIcon sx={{ color: like === false ? 'brown' : 'white' }} />
       </IconButton>
       {dislikes}
     </CardActions>

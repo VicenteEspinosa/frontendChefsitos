@@ -106,7 +106,7 @@ export default function Recipes(props: {
               {recipe.description}
             </Typography>
           </CardContent>
-          <Like ratings={recipe.ratings} />
+          <Like recipeId={recipe.id} ratings={recipe.ratings} />
         </Card>
       ))}
     </div>
