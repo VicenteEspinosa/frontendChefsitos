@@ -57,46 +57,38 @@ export default function Like(props: { recipeId: number; ratings: Rating[] }) {
     setRatings(newRatings)
   }
 
-  const likeHandle = async () => {
+  const rate = async (value: boolean) => {
     try {
-      if (like) {
+      if (like === value) {
         await RecipeService.deleteRate(props.recipeId)
         setLike(undefined)
         updateRatings(undefined)
       } else {
-        await RecipeService.rate(props.recipeId, true)
-        setLike(true)
-        updateRatings(true)
+        await RecipeService.rate(props.recipeId, value)
+        setLike(value)
+        updateRatings(value)
       }
     } catch (error) {
       throw error
     }
   }
 
+  const likeHandle = async () => {
+    await rate(true)
+  }
+
   const dislikeHandle = async () => {
-    try {
-      if (like === false) {
-        await RecipeService.deleteRate(props.recipeId)
-        setLike(undefined)
-        updateRatings(undefined)
-      } else {
-        await RecipeService.rate(props.recipeId, false)
-        setLike(false)
-        updateRatings(false)
-      }
-    } catch (error) {
-      throw error
-    }
+    await rate(false)
   }
 
   return (
     <CardActions disableSpacing>
       <IconButton aria-label="add to favorites" onClick={likeHandle}>
-        <ThumbUpIcon sx={{ color: like ? 'brown' : 'white' }} />
+        <ThumbUpIcon sx={{ color: like ? 'brown' : '#ccc' }} />
       </IconButton>
       {likes}
       <IconButton aria-label="add to favorites" onClick={dislikeHandle}>
-        <ThumbDownIcon sx={{ color: like === false ? 'brown' : 'white' }} />
+        <ThumbDownIcon sx={{ color: like === false ? 'brown' : '#ccc' }} />
       </IconButton>
       {dislikes}
     </CardActions>
