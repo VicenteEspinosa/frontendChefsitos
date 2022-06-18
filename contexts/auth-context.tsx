@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction } from 'react'
-interface IThemeContext {
+interface UserThemeContext {
   user: User | undefined
   setUser?: Dispatch<SetStateAction<User | undefined>>
 }
@@ -18,6 +18,6 @@ const defaultState = {
   user: undefined,
 }
 
-const AuthContext = React.createContext<IThemeContext>(defaultState)
+const AuthContext = React.createContext<UserThemeContext>(defaultState)
 
 export default AuthContext
