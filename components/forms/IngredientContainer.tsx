@@ -51,7 +51,11 @@ export default function IngredientContainer(props: {
     <div className={`flex $ ${classes.container}`}>
       <div className="left">
         <IngredientSelector
-          initialId={props.initialValues?.ingredient_id}
+          initialId={
+            props.info.ingredient_id
+              ? props.info.ingredient_id
+              : props.initialValues?.ingredient_id
+          }
           onSelectionChange={handleIngredientChange}
           isMobile={props.isMobile}
         />
@@ -66,7 +70,11 @@ export default function IngredientContainer(props: {
         onChange={handleQuantityChange}
       />
       <MeasurementSelector
-        initialId={props.initialValues?.measurement_id}
+        initialId={
+          props.info.measurement_id
+            ? props.info.measurement_id
+            : props.initialValues?.measurement_id
+        }
         onSelectionChange={handleMeasurementChange}
         isMobile={props.isMobile}
       />
