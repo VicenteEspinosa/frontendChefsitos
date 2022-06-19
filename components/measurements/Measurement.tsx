@@ -38,7 +38,6 @@ export default function MeasurementSelector(props: {
     const preload = MeasurementService.measurementArrayValue
     if (preload) {
       setData(preload)
-      return
     }
     const fetchLoad = await onMeasurementFetch()
     if (fetchLoad) {
