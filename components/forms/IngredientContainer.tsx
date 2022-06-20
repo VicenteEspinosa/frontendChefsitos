@@ -39,7 +39,7 @@ export default function IngredientContainer(props: {
   const handleQuantityChange = () => {
     const quantity =
       quantityRef.current!.value.length > 0
-        ? parseInt(quantityRef.current!.value)
+        ? Math.max(1, parseInt(quantityRef.current!.value))
         : null
     props.onChange(props.index, quantity)
   }
