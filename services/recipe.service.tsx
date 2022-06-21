@@ -39,7 +39,7 @@ interface Tag {
   tag_placeholder_url: string
 }
 
-interface Rating {
+export interface Rating {
   recipe_id: number
   user_id: number
   like: boolean
@@ -103,6 +103,24 @@ async function feed(orderBy?: string) {
   )
 }
 
+async function rate(recipeId: number, like: boolean) {
+  return BaseService.request(
+    pathPrefix,
+    `${recipeId}/rate/`,
+    BaseService.RequestMethod.Post,
+    JSON.stringify({ like })
+  )
+}
+
+async function deleteRate(recipeId: number) {
+  return BaseService.request(
+    pathPrefix,
+    `${recipeId}/rate/`,
+    BaseService.RequestMethod.Delete,
+    ''
+  )
+}
+
 const recipeArraySubject = new BehaviorSubject(
   process.browser && JSON.parse(localStorage.getItem('recipeArray') || '{}')
 )
@@ -119,4 +137,6 @@ export const RecipeService = {
   edit,
   delete_recipe,
   feed,
+  rate,
+  deleteRate,
 }

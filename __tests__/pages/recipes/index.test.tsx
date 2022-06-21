@@ -4,6 +4,7 @@ import AuthContext from '../../../contexts/auth-context'
 import RecipesPage from '../../../pages/recipes/index'
 
 const user = {
+  id: 1,
   username: 'test',
   email: 'test@text.cl',
   first_name: 'test',

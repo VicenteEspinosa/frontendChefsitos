@@ -8,7 +8,8 @@ import classes from '../RecipePage.module.css'
 import { InternalCode } from '../../../infrastructure/errors/internal-codes'
 import Chip from '@mui/material/Chip'
 import DeleteIcon from '@mui/icons-material/Delete'
-import Link from 'next/link'
+import EditIcon from '@mui/icons-material/Edit'
+import Like from '../../../components/recipes/Like'
 
 export default function RecipePage() {
   const [recipe, setRecipe] = useState<Recipe | undefined>()
@@ -52,22 +53,36 @@ export default function RecipePage() {
     }
   }
 
+  const handleEdit = () => {
+    router.push(`/recipes/${recipe!.id}/edit`)
+  }
+
   return (
     <>
       {recipe && (
         <Card>
           <div className={classes.flexHeader}>
             <h1>{recipe.name}</h1>
-            <div>
-              <Chip
-                label="Borrar Receta"
-                onClick={handleDelete}
-                onDelete={handleDelete}
-                deleteIcon={<DeleteIcon />}
-                variant="outlined"
-                color="error"
-              />
-              <Link href={`/recipes/${recipe!.id}/edit`}>Editar</Link>
+            <div className={classes.actions}>
+              <Like recipeId={recipe.id} ratings={recipe.ratings} />
+              <div className={classes['chip-container']}>
+                <Chip
+                  label="Borrar Receta"
+                  onClick={handleDelete}
+                  onDelete={handleDelete}
+                  deleteIcon={<DeleteIcon />}
+                  variant="outlined"
+                  color="error"
+                />
+                <Chip
+                  label="Editar Receta"
+                  onClick={handleEdit}
+                  onDelete={handleEdit}
+                  deleteIcon={<EditIcon />}
+                  variant="outlined"
+                  color="info"
+                />
+              </div>
             </div>
           </div>
           <div className="flex">
