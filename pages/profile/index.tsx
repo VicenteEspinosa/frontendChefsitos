@@ -38,7 +38,7 @@ export default function ProfilePage() {
 
         <div>
           <Button onClick={EditProfileRoute}>Editar</Button>
-          <Button onClick={DeleteUserRoute}>Eliminar</Button>
+          <Button className="delete-button" onClick={DeleteUserRoute}>Eliminar</Button>
         </div>
         <Recipes myRecipes={true} />
       </Card>

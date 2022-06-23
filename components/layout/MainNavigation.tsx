@@ -24,7 +24,7 @@ function MainNavigation(props: { isMobile: boolean; onLogout: () => void }) {
             )}
             {user && (
               <ul>
-                <li>
+                <li className="recipes-link">
                   <Link href="/recipes">Recetas</Link>
                 </li>
                 <li>
