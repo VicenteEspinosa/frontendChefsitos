@@ -5,7 +5,6 @@ services:
     build: .
     platform: linux/x86_64
     command: npm run dev
-    privileged: true
     volumes:
       - .:/app
     ports:
