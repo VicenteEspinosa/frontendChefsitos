@@ -4,6 +4,18 @@ import { BehaviorSubject } from 'rxjs'
 
 const pathPrefix = 'users/'
 
+export interface User {
+  id: number
+  username: string
+  first_name: string
+  last_name: string
+  picture_url: string
+  email: string
+  description: string
+  created_at: Date
+  updated_at: Date
+}
+
 async function edit(userData: EditUserDto) {
   return BaseService.request(
     pathPrefix,

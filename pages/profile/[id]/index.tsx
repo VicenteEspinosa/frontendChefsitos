@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { ApiError } from '../../../infrastructure/errors/api.error'
-import { UserService } from '../../../services/user.service'
+import { UserService, User } from '../../../services/user.service'
 import Avatar from '@mui/material/Avatar'
 import Card from '../../../components/ui/Card'
 import Recipes from '../../../components/recipes/Recipes'
@@ -9,7 +9,7 @@ import { InternalCode } from '../../../infrastructure/errors/internal-codes'
 
 
 export default function AnotherProfilePage() {
-	const [profileData, setProfileData] = useState()
+	const [profileData, setProfileData] = useState<User | undefined>()
 	const router = useRouter()
 	const { id } = router.query
 	
@@ -45,7 +45,7 @@ export default function AnotherProfilePage() {
         </h3>
         <h3>{profileData?.email}</h3>
         <div>{profileData?.description}</div>
-				<Recipes myRecipes={false} userId={id} />
+				<Recipes myRecipes={false} userId={profileData?.id} />
       </Card>
 		</>
 	)
