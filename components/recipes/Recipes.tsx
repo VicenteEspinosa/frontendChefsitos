@@ -44,7 +44,7 @@ export default function Recipes(props: {
       } else if (!props.myRecipes && props.userId == null) {
         recipesArray = await RecipeService.feed(props.orderByPopularity ? 'popularity' : undefined)
       } else {
-        recipesArray = await RecipeService.get_chef_recipes(props.userId)
+        recipesArray = await RecipeService.get_chef_recipes(props.userId as number)
       }
       if (recipesArray) {
         return recipesArray
