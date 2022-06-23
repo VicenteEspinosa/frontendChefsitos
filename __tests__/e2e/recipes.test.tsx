@@ -7,6 +7,7 @@ describe('rescipes features', () => {
 
   beforeAll(async () => {
     browser = await puppeteer.launch({
+      headless: false,
       executablePath: '/usr/bin/chromium-browser',
     })
     page = await browser.newPage()
