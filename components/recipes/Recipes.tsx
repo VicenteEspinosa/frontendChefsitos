@@ -14,6 +14,7 @@ import Like from './Like'
 export default function Recipes(props: {
   myRecipes?: boolean
   orderByPopularity?: boolean
+  userId?: number
 }) {
   const [data, setData] = useState([] as Recipe[])
   const router = useRouter()
@@ -37,11 +38,14 @@ export default function Recipes(props: {
 
   async function onRecipesFetch() {
     try {
-      const recipesArray = props.myRecipes
-        ? await RecipeService.myRecipes()
-        : await RecipeService.feed(
-            props.orderByPopularity ? 'popularity' : undefined
-          )
+      let recipesArray = []
+      if (props.myRecipes) {
+        recipesArray = await RecipeService.myRecipes()
+      } else if (!props.myRecipes && props.userId == null) {
+        recipesArray = await RecipeService.feed(props.orderByPopularity ? 'popularity' : undefined)
+      } else {
+        recipesArray = await RecipeService.get_chef_recipes(props.userId)
+      }
       if (recipesArray) {
         return recipesArray
       }
@@ -68,7 +72,7 @@ export default function Recipes(props: {
             avatar={
               <Avatar
                 onClick={() => {
-                  console.log('click en usuario')
+                  router.push(`/profile/${recipe.user_id}`)
                 }}
                 sx={{ bgcolor: red[500], cursor: 'pointer' }}
                 aria-label="recipe"

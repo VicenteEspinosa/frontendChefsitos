@@ -58,6 +58,15 @@ async function signout() {
   }
 }
 
+async function show_user_by_id(userId: number) {
+  return BaseService.request(
+    pathPrefix,
+    `show/${userId}/`,
+    BaseService.RequestMethod.Get,
+    ''
+  )
+}
+
 export const UserService = {
   get userValue() {
     return Object.keys(userSubject.value).length !== 0
@@ -69,4 +78,5 @@ export const UserService = {
   signout,
   edit,
   delete_user,
+  show_user_by_id,
 }

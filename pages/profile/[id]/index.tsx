@@ -1,0 +1,53 @@
+import { Button } from '@mui/material'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import { ApiError } from '../../../infrastructure/errors/api.error'
+import { RecipeService } from '../../../services/recipe.service'
+import { UserService } from '../../../services/user.service'
+import AuthContext from '../../contexts/auth-context'
+import Avatar from '@mui/material/Avatar'
+import Card from '../../../components/ui/Card'
+import Recipes from '../../../components/recipes/Recipes'
+import { InternalCode } from '../../../infrastructure/errors/internal-codes'
+
+
+export default function AnotherProfilePage() {
+	const [profileData, setProfileData] = useState()
+	const router = useRouter()
+	const { id } = router.query
+	
+	useEffect(() => {
+		getProfileData(id)
+	}, [id])
+
+	const getProfileData = async (id: number) => {
+		if (id) {
+			try {
+				const resProfile = await UserService.show_user_by_id(id)
+				setProfileData(resProfile)
+			} catch (error) {
+				if (error instanceof ApiError) {
+					if (error.internalCode == InternalCode.AuthError) {
+						router.push('/login')
+					}
+				}
+				console.log(error)
+			}
+		}
+	}
+
+	return (
+		<>
+			<Card>
+        <Avatar alt="No" src={profileData?.picture_url} />
+        <h2>{profileData?.username}</h2>
+        <h3>
+          {profileData?.first_name} {profileData?.last_name}
+        </h3>
+        <h3>{profileData?.email}</h3>
+        <div>{profileData?.description}</div>
+				<Recipes myRecipes={false} userId={id} />
+      </Card>
+		</>
+	)
+}
