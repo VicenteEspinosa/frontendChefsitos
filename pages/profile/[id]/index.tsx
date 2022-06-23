@@ -14,7 +14,9 @@ export default function AnotherProfilePage() {
 	const { id } = router.query
 	
 	useEffect(() => {
-		getProfileData(id)
+		if (typeof id === 'string') {
+			getProfileData(parseInt(id))
+		}
 	}, [id])
 
 	const getProfileData = async (id: number) => {
