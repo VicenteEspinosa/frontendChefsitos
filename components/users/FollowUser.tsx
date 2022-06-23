@@ -20,7 +20,6 @@ export default function FollowUser(props: {
         : props.onFollow && props.onFollow()
       setIsFollowing(!isFollowing)
     }
-    return
   }
 
   useEffect(() => {
