@@ -58,6 +58,29 @@ async function signout() {
   }
 }
 
+async function get(id: number) {
+  const user = await BaseService.request(
+    pathPrefix,
+    `show/${id}`,
+    BaseService.RequestMethod.Get,
+    ''
+  )
+  return user
+}
+
+export interface OtherUser {
+  id: number
+  username: string
+  email: string
+  first_name: string
+  last_name: string
+  description: string
+  picture_url: string
+  followers: number[]
+  following: number[]
+  is_following: boolean
+}
+
 export const UserService = {
   get userValue() {
     return Object.keys(userSubject.value).length !== 0
@@ -69,4 +92,5 @@ export const UserService = {
   signout,
   edit,
   delete_user,
+  get,
 }
