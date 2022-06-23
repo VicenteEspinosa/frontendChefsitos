@@ -7,9 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint .",
-    "test": "jest",
+    "test": "jest --modulePathIgnorePatterns=e2e",
     "test:e2e": "jest __tests__/e2e",
-    "test-coverage": "jest --config=jest.config.coverage.js"
+    "test-coverage": "jest --modulePathIgnorePatterns=e2e --config=jest.config.coverage.js"
   },
   "dependencies": {
     "@emotion/react": "^11.9.0",
