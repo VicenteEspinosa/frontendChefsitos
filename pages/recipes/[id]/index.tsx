@@ -130,7 +130,10 @@ export default function RecipePage() {
                       className={classes.avatar}
                     />
                   </div>
-                  <h2>
+                  <h2 
+                    onClick={() => {router.push(`/profile/${user?.id}`)}} 
+                    style={{ cursor: 'pointer' }}
+                  >
                     {user?.first_name} {user?.last_name}
                   </h2>
                 </div>

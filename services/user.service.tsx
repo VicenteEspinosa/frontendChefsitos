@@ -4,6 +4,19 @@ import { BehaviorSubject } from 'rxjs'
 
 const pathPrefix = 'users/'
 
+export interface OtherUser {
+  id: number
+  username: string
+  email: string
+  first_name: string
+  last_name: string
+  description: string
+  picture_url: string
+  followers: number[]
+  following: number[]
+  is_following: boolean
+}
+
 async function edit(userData: EditUserDto) {
   return BaseService.request(
     pathPrefix,
@@ -58,6 +71,15 @@ async function signout() {
   }
 }
 
+async function show_user_by_id(userId: number) {
+  return BaseService.request(
+    pathPrefix,
+    `show/${userId}/`,
+    BaseService.RequestMethod.Get,
+    ''
+  )
+}
+
 async function get(id: number) {
   const user = await BaseService.request(
     pathPrefix,
@@ -66,19 +88,6 @@ async function get(id: number) {
     ''
   )
   return user
-}
-
-export interface OtherUser {
-  id: number
-  username: string
-  email: string
-  first_name: string
-  last_name: string
-  description: string
-  picture_url: string
-  followers: number[]
-  following: number[]
-  is_following: boolean
 }
 
 export const UserService = {
@@ -92,5 +101,6 @@ export const UserService = {
   signout,
   edit,
   delete_user,
+  show_user_by_id,
   get,
 }
