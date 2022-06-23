@@ -30,7 +30,7 @@ function MainNavigation(props: { isMobile: boolean; onLogout: () => void }) {
                 <li>
                   <Link href="/profile">Mi Perfil</Link>
                 </li>
-                <li>
+                <li className="new-recipe-link">
                   <Link href="/recipes/new">Crear receta</Link>
                 </li>
                 <li>

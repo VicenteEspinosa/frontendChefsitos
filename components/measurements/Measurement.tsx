@@ -61,6 +61,7 @@ export default function MeasurementSelector(props: {
   return (
     <>
       <Autocomplete
+        className="measurements-field"
         value={measurementChosen}
         onChange={(
           event: object,

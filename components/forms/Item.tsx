@@ -38,7 +38,7 @@ export default function Item(props: {
   return (
     <div className={classes.item}>
       <div className={classes['order-number']}>{props.orderNumber + 1}.</div>
-      <textarea ref={bodyRef} onChange={handleBodyChange} value={props.body} />
+      <textarea className='item-field' ref={bodyRef} onChange={handleBodyChange} value={props.body} />
       <div className="flex">
         <div className="left">
           <UploadImageForm

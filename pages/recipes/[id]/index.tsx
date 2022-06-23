@@ -26,7 +26,7 @@ export default function RecipePage() {
       if (typeof id === 'string') {
         await RecipeService.delete_recipe(id)
       }
-      router.push('/')
+      router.push('/profile')
     } catch (error) {
       if (error instanceof ApiError) {
         if (error.internalCode == InternalCode.EntityNotProcesable) {
@@ -67,6 +67,7 @@ export default function RecipePage() {
               <Like recipeId={recipe.id} ratings={recipe.ratings} />
               <div className={classes['chip-container']}>
                 <Chip
+                  className="delete-button"
                   label="Borrar Receta"
                   onClick={handleDelete}
                   onDelete={handleDelete}
