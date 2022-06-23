@@ -12,10 +12,12 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import Like from '../../../components/recipes/Like'
 import Avatar from '@mui/material/Avatar'
+import FollowUser from '../../../components/users/FollowUser'
 
 export default function RecipePage() {
   const [recipe, setRecipe] = useState<Recipe | undefined>()
   const [user, setUser] = useState<OtherUser | undefined>()
+  const [followers, setFollowers] = useState<number>(0)
   const router = useRouter()
   const { id } = router.query
   useEffect(() => {
@@ -23,6 +25,12 @@ export default function RecipePage() {
       getRecipe(parseInt(id))
     }
   }, [id])
+
+  useEffect(() => {
+    if (user) {
+      setFollowers(user?.followers.length)
+    }
+  }, [user])
 
   useEffect(() => {
     if (recipe) {
@@ -125,20 +133,28 @@ export default function RecipePage() {
                 <div className={classes['user-info-avatar-username']}>
                   <div className={classes['user-avatar']}>
                     <Avatar
-                      alt={user?.username}
+                      alt={user?.first_name}
                       src={user?.picture_url}
                       className={classes.avatar}
                     />
                   </div>
-                  <h2 
-                    onClick={() => {router.push(`/profile/${user?.id}`)}} 
+                  <h2
+                    onClick={() => {
+                      router.push(`/profile/${user?.id}`)
+                    }}
                     style={{ cursor: 'pointer' }}
                   >
                     {user?.first_name} {user?.last_name}
                   </h2>
                 </div>
                 <div className={classes['user-follow']}>
-                  <h3>{user?.followers.length} seguidores</h3>
+                  <h3>{followers} seguidores</h3>
+                  <FollowUser
+                    following={user?.is_following}
+                    userId={user?.id}
+                    onFollow={() => setFollowers(followers + 1)}
+                    onUnfollow={() => setFollowers(followers - 1)}
+                  />
                 </div>
               </div>
               {recipe.description && (
