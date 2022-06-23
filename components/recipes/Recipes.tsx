@@ -39,7 +39,6 @@ export default function Recipes(props: {
   async function onRecipesFetch() {
     try {
       let recipesArray = []
-      console.log(props.userId)
       if (props.myRecipes) {
         recipesArray = await RecipeService.myRecipes()
       } else if (!props.myRecipes && props.userId == null) {
