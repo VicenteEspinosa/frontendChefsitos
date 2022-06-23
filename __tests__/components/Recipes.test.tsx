@@ -19,6 +19,7 @@ describe('recipes component', () => {
       created_at: Date.now(),
       updated_at: Date.now(),
       ratings: [],
+      tags: [],
     },
     {
       id: 2,
@@ -30,12 +31,13 @@ describe('recipes component', () => {
       created_at: Date.now(),
       updated_at: Date.now(),
       ratings: [],
+      tags:[],
     },
   ])
 
   test('my recipes component shows recipes titles and authors', async () => {
     await act(async () => {
-      render(<Recipes myRecipes={true} />)
+      render(<Recipes myRecipes={false} />)
     })
 
     expect(screen.getByText('this is a test recipe')).toBeInTheDocument()

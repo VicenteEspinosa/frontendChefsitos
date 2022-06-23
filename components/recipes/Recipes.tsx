@@ -6,7 +6,8 @@ import Avatar from '@mui/material/Avatar'
 import Typography from '@mui/material/Typography'
 import { red } from '@mui/material/colors'
 import { RecipeService, Recipe } from '../../services/recipe.service'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
+import AuthContext from '../../contexts/auth-context'
 import classes from './Recipe.module.css'
 import { useRouter } from 'next/router'
 import Like from './Like'
@@ -20,6 +21,7 @@ export default function Recipes(props: {
   const [data, setData] = useState([] as Recipe[])
   const [tagIds, setTagIds] = useState<number[]>([])
   const [filteredRecipes, setFilteredRecipes] = useState([] as Recipe[])
+  const { user } = useContext(AuthContext)
   const router = useRouter()
 
   useEffect(() => {
@@ -58,6 +60,8 @@ export default function Recipes(props: {
         recipesArray = await RecipeService.myRecipes()
       } else if (!props.myRecipes && props.userId == null) {
         recipesArray = await RecipeService.feed(props.orderByPopularity ? 'popularity' : undefined)
+      } else if (!props.myRecipes && props.userId == user?.id) {
+        recipesArray = await RecipeService.myRecipes()
       } else {
         recipesArray = await RecipeService.get_chef_recipes(props.userId as number)
       }
