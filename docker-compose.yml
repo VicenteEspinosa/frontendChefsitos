@@ -1,0 +1,12 @@
+version: '2.4'
+
+services:
+  web:
+    build: .
+    platform: linux/x86_64
+    command: npm run dev
+    privileged: true
+    volumes:
+      - .:/app
+    ports:
+      - '3000:3000'

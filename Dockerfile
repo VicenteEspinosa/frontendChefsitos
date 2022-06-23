@@ -1,56 +1,23 @@
 # Install dependencies only when needed
-FROM node:16-alpine AS deps
+FROM node:16
+WORKDIR /app
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-RUN apk add --no-cache libc6-compat
-WORKDIR /app
-# COPY package.json yarn.lock ./
-# RUN yarn install --frozen-lockfile
+RUN  apt-get update \
+     && apt-get install -y wget gnupg ca-certificates \
+     && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+     && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
+     && apt-get update \
+     # We install Chrome to get all the OS level dependencies, but Chrome itself
+     # is not actually used as it's packaged in the node puppeteer library.
+     # Alternatively, we could could include the entire dep list ourselves
+     # (https://github.com/puppeteer/puppeteer/blob/master/docs/troubleshooting.md#chrome-headless-doesnt-launch-on-unix)
+     # but that seems too easy to get out of date.
+     && apt-get install -y google-chrome-stable \
+     && rm -rf /var/lib/apt/lists/* \
+     && wget --quiet https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh -O /usr/sbin/wait-for-it.sh \
+     && chmod +x /usr/sbin/wait-for-it.sh
 
-# If using npm with a `package-lock.json` comment out above and use below instead
-COPY package.json package-lock.json ./ 
-RUN npm ci
 
-# Rebuild the source code only when needed
-FROM node:16-alpine AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
-COPY . .
+COPY . /app
 
-# Next.js collects completely anonymous telemetry data about general usage.
-# Learn more here: https://nextjs.org/telemetry
-# Uncomment the following line in case you want to disable telemetry during the build.
-# ENV NEXT_TELEMETRY_DISABLED 1
-
-# RUN yarn build
-
-# If using npm comment out above and use below instead
-RUN npm run build
-
-# Production image, copy all the files and run next
-FROM node:16-alpine AS runner
-WORKDIR /app
-
-ENV NODE_ENV production
-# Uncomment the following line in case you want to disable telemetry during runtime.
-# ENV NEXT_TELEMETRY_DISABLED 1
-
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-
-# You only need to copy next.config.js if you are NOT using the default configuration
-# COPY --from=builder /app/next.config.js ./
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/package.json ./package.json
-
-# Automatically leverage output traces to reduce image size 
-# https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-
-USER nextjs
-
-EXPOSE 3000
-
-ENV PORT 3000
-
-CMD ["node", "server.js"]
+RUN npm install
