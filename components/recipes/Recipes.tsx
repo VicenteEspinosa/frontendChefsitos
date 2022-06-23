@@ -26,7 +26,7 @@ export default function Recipes(props: {
 
   useEffect(() => {
     getList()
-  }, [props.orderByPopularity])
+  }, [props.orderByPopularity, props.userId])
 
   useEffect(() => {
     let filterResult = []
@@ -55,7 +55,6 @@ export default function Recipes(props: {
   async function onRecipesFetch() {
     try {
       let recipesArray = []
-      console.log(props.userId)
       if (props.myRecipes) {
         recipesArray = await RecipeService.myRecipes()
       } else if (!props.myRecipes && props.userId == null) {

@@ -12,7 +12,7 @@ describe('recipes component', () => {
     {
       id: 1,
       user_id: 1,
-      private: true,
+      private: false,
       name: 'username',
       description: 'this is a test recipe',
       picture_url: 'https://google.cl',
@@ -31,7 +31,7 @@ describe('recipes component', () => {
       created_at: Date.now(),
       updated_at: Date.now(),
       ratings: [],
-      tags:[],
+      tags: [],
     },
   ])
 

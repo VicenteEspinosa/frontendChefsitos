@@ -14,7 +14,7 @@ export interface OtherUser {
   picture_url: string
   followers: number[]
   following: number[]
-  is_following: boolean
+  is_following: boolean | null
 }
 
 async function edit(userData: EditUserDto) {
@@ -90,6 +90,26 @@ async function get(id: number) {
   return user
 }
 
+async function follow(userId: number) {
+  const user = await BaseService.request(
+    pathPrefix,
+    `${userId}/follow/`,
+    BaseService.RequestMethod.Post,
+    ''
+  )
+  return user
+}
+
+async function unfollow(userId: number) {
+  const user = await BaseService.request(
+    pathPrefix,
+    `${userId}/follow/`,
+    BaseService.RequestMethod.Delete,
+    ''
+  )
+  return user
+}
+
 export const UserService = {
   get userValue() {
     return Object.keys(userSubject.value).length !== 0
@@ -103,4 +123,6 @@ export const UserService = {
   delete_user,
   show_user_by_id,
   get,
+  follow,
+  unfollow,
 }
