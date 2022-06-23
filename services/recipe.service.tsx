@@ -33,7 +33,7 @@ interface Ingredients {
   quantity: number
 }
 
-interface Tag {
+export interface Tag {
   tag_id: number
   tag_name: string
   tag_placeholder_url: string

@@ -65,7 +65,7 @@ export default function Recipes(props: {
     }
   }
 
-  const handleSearchBarChange = (tags: Tag[]) => {
+  const handleSearchBarChange = (tags: number[]) => {
     setTagIds(tags)
   }
 
