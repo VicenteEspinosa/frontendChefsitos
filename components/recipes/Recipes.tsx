@@ -15,6 +15,7 @@ import SearchBar from '../ui/SearchBar';
 export default function Recipes(props: {
   myRecipes?: boolean
   orderByPopularity?: boolean
+  userId?: number
 }) {
   const [data, setData] = useState([] as Recipe[])
   const [tagIds, setTagIds] = useState<number[]>([])
@@ -51,11 +52,15 @@ export default function Recipes(props: {
 
   async function onRecipesFetch() {
     try {
-      const recipesArray = props.myRecipes
-        ? await RecipeService.myRecipes()
-        : await RecipeService.feed(
-            props.orderByPopularity ? 'popularity' : undefined
-          )
+      let recipesArray = []
+      console.log(props.userId)
+      if (props.myRecipes) {
+        recipesArray = await RecipeService.myRecipes()
+      } else if (!props.myRecipes && props.userId == null) {
+        recipesArray = await RecipeService.feed(props.orderByPopularity ? 'popularity' : undefined)
+      } else {
+        recipesArray = await RecipeService.get_chef_recipes(props.userId as number)
+      }
       if (recipesArray) {
         return recipesArray
       }
@@ -85,15 +90,15 @@ export default function Recipes(props: {
               maxWidth: 345,
               backgroundColor: 'rgb(165, 95, 8)',
               color: 'white',
-            }}
-            key={recipe.id}
-            className={classes.card}
-          >
+          }}
+          key={recipe.id}
+          className={classes.card}
+        >
             <CardHeader
               avatar={
                 <Avatar
                   onClick={() => {
-                    console.log('click en usuario')
+                    router.push(`/profile/${recipe.user_id}`)
                   }}
                   sx={{ bgcolor: red[500], cursor: 'pointer' }}
                   aria-label="recipe"

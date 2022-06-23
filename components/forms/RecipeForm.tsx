@@ -163,7 +163,13 @@ export default function RecipeForm(props: {
     const ingredients_ids = ingredients.map((ingredient) => {
       return ingredient.ingredient_id
     })
-    if ((new Set(ingredients_ids)).size !== ingredients_ids.length) {
+    if (!itemsInfo.length || !ingredients.length) {
+      setAlertMsg(
+        'Tu receta debe contener por lo menos una o más instrucciones y uno o más ingredientes'
+      )
+      return
+    }
+    if (new Set(ingredients_ids).size !== ingredients_ids.length) {
       setAlertMsg('No puedes tener ingredientes repetidos')
       return
     }
