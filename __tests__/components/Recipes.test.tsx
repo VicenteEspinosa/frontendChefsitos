@@ -7,6 +7,11 @@ import { RecipeService } from '../../services/recipe.service'
 jest.mock('../../services/recipe.service')
 const mockedRecipeService = RecipeService as jest.Mocked<typeof RecipeService>
 
+jest.mock('../../components/ui/SearchBar', () => {
+  const SearchBar = () => <div>SearchBar Mock</div>
+  return SearchBar
+})
+
 describe('recipes component', () => {
   mockedRecipeService.myRecipes.mockResolvedValue([
     {
@@ -18,6 +23,8 @@ describe('recipes component', () => {
       picture_url: 'https://google.cl',
       created_at: Date.now(),
       updated_at: Date.now(),
+      ratings: [],
+      tags: [],
     },
     {
       id: 2,
@@ -28,6 +35,8 @@ describe('recipes component', () => {
       picture_url: 'https://google.cl',
       created_at: Date.now(),
       updated_at: Date.now(),
+      ratings: [],
+      tags: [],
     },
   ])
 

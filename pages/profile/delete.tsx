@@ -27,7 +27,7 @@ export default function DeleteUser() {
   }
   useEffect(() => {
     DelUser()
-  }, [])
+  })
 
   return <></>
 }

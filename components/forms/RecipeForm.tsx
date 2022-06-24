@@ -160,6 +160,19 @@ export default function RecipeForm(props: {
   })
 
   const onSubmit = async (data: RecipeSubmitForm) => {
+    const ingredients_ids = ingredients.map((ingredient) => {
+      return ingredient.ingredient_id
+    })
+    if (!itemsInfo.length || !ingredients.length) {
+      setAlertMsg(
+        'Tu receta debe contener por lo menos una o más instrucciones y uno o más ingredientes'
+      )
+      return
+    }
+    if (new Set(ingredients_ids).size !== ingredients_ids.length) {
+      setAlertMsg('No puedes tener ingredientes repetidos')
+      return
+    }
     if (itemsInfo.some((item) => !item.url && !item.body)) {
       setAlertMsg('Las instrucciones deben tener una imagen o una descripción')
       return
@@ -229,16 +242,12 @@ export default function RecipeForm(props: {
   return (
     <Card>
       <div className={baseClasses.form}>
-        <Alert
-          class="warning"
-          message={alertMsg}
-          hidden={alertMsg.length === 0}
-        />
         <div className="flex">
           <div className="left">
             <div className={baseClasses.control}>
               <label>Nombre</label>
               <input
+                className='name-field'
                 type="text"
                 {...register('name')}
                 value={recipeName}
@@ -283,6 +292,11 @@ export default function RecipeForm(props: {
             isMobile={props.isMobile}
           />
         </div>
+        <Alert
+          class="warning"
+          message={alertMsg}
+          hidden={alertMsg.length === 0}
+        />
         <div className={classes.ingredients}>
           <label> Ingredientes</label>
           {ingredientComponents}
@@ -300,7 +314,7 @@ export default function RecipeForm(props: {
         </button>
         <div className={baseClasses.actions}>
           <button
-            className={baseClasses['form-button']}
+            className={`submit-button ${baseClasses['form-button']}`}
             onClick={handleSubmit(onSubmit)}
           >
             Publicar

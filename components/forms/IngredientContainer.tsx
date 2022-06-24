@@ -33,10 +33,13 @@ export default function IngredientContainer(props: {
   const handleMeasurementChange = (measurement_id: number | null) => {
     props.onChange(props.index, undefined, measurement_id)
   }
+  const blockInvalidChars = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault()
+  }
   const handleQuantityChange = () => {
     const quantity =
       quantityRef.current!.value.length > 0
-        ? parseInt(quantityRef.current!.value)
+        ? Math.max(1, parseInt(quantityRef.current!.value))
         : null
     props.onChange(props.index, quantity)
   }
@@ -48,7 +51,11 @@ export default function IngredientContainer(props: {
     <div className={`flex $ ${classes.container}`}>
       <div className="left">
         <IngredientSelector
-          initialId={props.initialValues?.ingredient_id}
+          initialId={
+            props.info.ingredient_id
+              ? props.info.ingredient_id
+              : props.initialValues?.ingredient_id
+          }
           onSelectionChange={handleIngredientChange}
           isMobile={props.isMobile}
         />
@@ -56,13 +63,18 @@ export default function IngredientContainer(props: {
       <input
         value={props.info.quantity ? props.info.quantity : undefined}
         ref={quantityRef}
-        className="left"
+        className="quantity-field left"
         type="number"
         min={1}
+        onKeyDown={blockInvalidChars}
         onChange={handleQuantityChange}
       />
       <MeasurementSelector
-        initialId={props.initialValues?.measurement_id}
+        initialId={
+          props.info.measurement_id
+            ? props.info.measurement_id
+            : props.initialValues?.measurement_id
+        }
         onSelectionChange={handleMeasurementChange}
         isMobile={props.isMobile}
       />

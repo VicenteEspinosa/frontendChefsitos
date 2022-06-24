@@ -4,6 +4,8 @@ body {
 
 .warning {
   background-color: #ffeb3b;
+  border-radius: 5px;
+  margin-top: 5px;
 }
 
 a {

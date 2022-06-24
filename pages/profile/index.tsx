@@ -4,8 +4,9 @@ import React, { useContext, useEffect } from 'react'
 import AuthContext from '../../contexts/auth-context'
 import Avatar from '@mui/material/Avatar'
 import Card from '../../components/ui/Card'
+import Recipes from '../../components/recipes/Recipes'
 
-export default function LoginPage() {
+export default function ProfilePage() {
   // const [entityNotFound, setEntityNotFound] = useState(false)
   const router = useRouter()
   const { user } = useContext(AuthContext)
@@ -37,8 +38,9 @@ export default function LoginPage() {
 
         <div>
           <Button onClick={EditProfileRoute}>Editar</Button>
-          <Button onClick={DeleteUserRoute}>Eliminar</Button>
+          <Button className="delete-button" onClick={DeleteUserRoute}>Eliminar</Button>
         </div>
+        <Recipes myRecipes={true} />
       </Card>
     </>
   )

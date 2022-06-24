@@ -14,6 +14,7 @@ export interface Recipe {
   items: Item[]
   ingredients: Ingredients[]
   tags: Tag[]
+  ratings: Rating[]
   created_at: Date
   updated_at: Date
 }
@@ -32,10 +33,16 @@ interface Ingredients {
   quantity: number
 }
 
-interface Tag {
+export interface Tag {
   tag_id: number
   tag_name: string
   tag_placeholder_url: string
+}
+
+export interface Rating {
+  recipe_id: number
+  user_id: number
+  like: boolean
 }
 
 async function create(recipeData: NewRecipeDto) {
@@ -65,6 +72,15 @@ async function get(recipeId: number) {
   )
 }
 
+async function following_feed() {
+  return BaseService.request(
+    pathPrefix,
+    'feed/following/',
+    BaseService.RequestMethod.Get,
+    ''
+  )
+}
+
 async function delete_recipe(recipeId: string) {
   return BaseService.request(
     pathPrefix,
@@ -78,6 +94,46 @@ async function myRecipes() {
   return BaseService.request(
     pathPrefix,
     'self/',
+    BaseService.RequestMethod.Get,
+    ''
+  )
+}
+
+async function feed(orderBy?: string) {
+  const basePathSufix = 'feed/'
+  const pathSufix = orderBy
+    ? `${basePathSufix}?order_by=${orderBy}`
+    : basePathSufix
+  return BaseService.request(
+    pathPrefix,
+    pathSufix,
+    BaseService.RequestMethod.Get,
+    ''
+  )
+}
+
+async function rate(recipeId: number, like: boolean) {
+  return BaseService.request(
+    pathPrefix,
+    `${recipeId}/rate/`,
+    BaseService.RequestMethod.Post,
+    JSON.stringify({ like })
+  )
+}
+
+async function deleteRate(recipeId: number) {
+  return BaseService.request(
+    pathPrefix,
+    `${recipeId}/rate/`,
+    BaseService.RequestMethod.Delete,
+    ''
+  )
+}
+
+async function get_chef_recipes(userId: number) {
+  return BaseService.request(
+    pathPrefix,
+    `chef/${userId}/`,
     BaseService.RequestMethod.Get,
     ''
   )
@@ -98,4 +154,9 @@ export const RecipeService = {
   myRecipes,
   edit,
   delete_recipe,
+  feed,
+  rate,
+  deleteRate,
+  get_chef_recipes,
+  following_feed,
 }
