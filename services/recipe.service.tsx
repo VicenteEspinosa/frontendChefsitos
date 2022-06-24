@@ -72,6 +72,15 @@ async function get(recipeId: number) {
   )
 }
 
+async function following_feed() {
+  return BaseService.request(
+    pathPrefix,
+    'feed/following/',
+    BaseService.RequestMethod.Get,
+    ''
+  )
+}
+
 async function delete_recipe(recipeId: string) {
   return BaseService.request(
     pathPrefix,
@@ -149,4 +158,5 @@ export const RecipeService = {
   rate,
   deleteRate,
   get_chef_recipes,
+  following_feed,
 }

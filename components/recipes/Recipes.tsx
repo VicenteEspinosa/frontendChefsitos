@@ -15,13 +15,14 @@ export default function Recipes(props: {
   myRecipes?: boolean
   orderByPopularity?: boolean
   userId?: number
+  feedAlignment?: string
 }) {
   const [data, setData] = useState([] as Recipe[])
   const router = useRouter()
 
   useEffect(() => {
     getList()
-  }, [props.orderByPopularity])
+  }, [props.orderByPopularity, props.userId, props.feedAlignment])
 
   const getList = async () => {
     const preload = RecipeService.recipeArrayValue
@@ -41,10 +42,16 @@ export default function Recipes(props: {
       let recipesArray = []
       if (props.myRecipes) {
         recipesArray = await RecipeService.myRecipes()
+      } else if (props.feedAlignment === 'following') {
+        recipesArray = await RecipeService.following_feed()
       } else if (!props.myRecipes && props.userId == null) {
-        recipesArray = await RecipeService.feed(props.orderByPopularity ? 'popularity' : undefined)
+        recipesArray = await RecipeService.feed(
+          props.orderByPopularity ? 'popularity' : undefined
+        )
       } else {
-        recipesArray = await RecipeService.get_chef_recipes(props.userId as number)
+        recipesArray = await RecipeService.get_chef_recipes(
+          props.userId as number
+        )
       }
       if (recipesArray) {
         return recipesArray
