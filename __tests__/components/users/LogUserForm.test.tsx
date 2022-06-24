@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom'
 
 import { act, render, screen } from '@testing-library/react'
-import LogUserForm from '../../../components/users/LogUserForm'
+import LogUserForm from '../../../components/forms/LogUserForm'
 
 describe('log user form component', () => {
   test('form gets rendered correctly', async () => {

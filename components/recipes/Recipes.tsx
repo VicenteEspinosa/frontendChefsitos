@@ -38,6 +38,10 @@ export default function Recipes(props: {
         recipe.tags.some((tag) => tagIds.includes(tag.tag_id))
       )
     }
+    if (props.feedAlignment === 'random' && filterResult.length > 1) {
+      const index = Math.floor(Math.random() * filterResult.length);
+      filterResult = [filterResult[index]];
+    }
     setFilteredRecipes(filterResult)
   }, [data, tagIds])
 
