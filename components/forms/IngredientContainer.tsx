@@ -63,7 +63,7 @@ export default function IngredientContainer(props: {
       <input
         value={props.info.quantity ? props.info.quantity : undefined}
         ref={quantityRef}
-        className="left"
+        className="quantity-field left"
         type="number"
         min={1}
         onKeyDown={blockInvalidChars}

@@ -75,7 +75,7 @@ export default function NewUserForm(props: {
         <div className={props.isMobile ? classes['w-full'] : 'left'}>
           <div className={classes.control}>
             <label>Nombre de usuario</label>
-            <input type="text" {...register('username')} />
+            <input className="username-field" type="text" {...register('username')} />
             <div className={classes['invalid-feedback']}>
               {errors.username?.message}
             </div>
@@ -83,7 +83,7 @@ export default function NewUserForm(props: {
 
           <div className={classes.control}>
             <label>Confirmar nombre de usuario</label>
-            <input type="text" {...register('confirmUsername')} />
+            <input className="confirm-username-field" type="text" {...register('confirmUsername')} />
             <div className={classes['invalid-feedback']}>
               {errors.confirmUsername?.message}
             </div>
@@ -91,7 +91,7 @@ export default function NewUserForm(props: {
 
           <div className={classes.control}>
             <label>Email</label>
-            <input type="text" {...register('email')} />
+            <input className="email-field" type="text" {...register('email')} />
             <div className={classes['invalid-feedback']}>
               {errors.email?.message}
             </div>
@@ -99,7 +99,7 @@ export default function NewUserForm(props: {
 
           <div className={classes.control}>
             <label>Confirmar email</label>
-            <input type="text" {...register('confirmEmail')} />
+            <input className="confirm-email-field" type="text" {...register('confirmEmail')} />
             <div className={classes['invalid-feedback']}>
               {errors.confirmEmail?.message}
             </div>
@@ -108,7 +108,7 @@ export default function NewUserForm(props: {
         <div>
           <div className={classes.control}>
             <label>Nombre</label>
-            <input type="text" {...register('firstName')} />
+            <input className="first-name-field" type="text" {...register('firstName')} />
             <div className={classes['invalid-feedback']}>
               {errors.firstName?.message}
             </div>
@@ -116,7 +116,7 @@ export default function NewUserForm(props: {
 
           <div className={classes.control}>
             <label>Apellido</label>
-            <input type="text" {...register('lastName')} />
+            <input className="last-name-field" type="text" {...register('lastName')} />
             <div className={classes['invalid-feedback']}>
               {errors.lastName?.message}
             </div>
@@ -124,14 +124,14 @@ export default function NewUserForm(props: {
 
           <div className={classes.control}>
             <label>Contraseña</label>
-            <input type="password" {...register('password')} />
+            <input className="password-field" type="password" {...register('password')} />
             <div className={classes['invalid-feedback']}>
               {errors.password?.message}
             </div>
           </div>
           <div className={classes.control}>
             <label>Confirmar contraseña</label>
-            <input type="password" {...register('confirmPassword')} />
+            <input className="confirm-password-field" type="password" {...register('confirmPassword')} />
             <div className={classes['invalid-feedback']}>
               {errors.confirmPassword?.message}
             </div>

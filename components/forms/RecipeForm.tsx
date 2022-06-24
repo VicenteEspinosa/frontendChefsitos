@@ -247,6 +247,7 @@ export default function RecipeForm(props: {
             <div className={baseClasses.control}>
               <label>Nombre</label>
               <input
+                className='name-field'
                 type="text"
                 {...register('name')}
                 value={recipeName}
@@ -291,6 +292,11 @@ export default function RecipeForm(props: {
             isMobile={props.isMobile}
           />
         </div>
+        <Alert
+          class="warning"
+          message={alertMsg}
+          hidden={alertMsg.length === 0}
+        />
         <div className={classes.ingredients}>
           <label> Ingredientes</label>
           {ingredientComponents}
@@ -306,14 +312,9 @@ export default function RecipeForm(props: {
         <button className={baseClasses['form-button']} onClick={addItem}>
           Agregar instrucción
         </button>
-        <Alert
-          class="warning"
-          message={alertMsg}
-          hidden={alertMsg.length === 0}
-        />
         <div className={baseClasses.actions}>
           <button
-            className={baseClasses['form-button']}
+            className={`submit-button ${baseClasses['form-button']}`}
             onClick={handleSubmit(onSubmit)}
           >
             Publicar

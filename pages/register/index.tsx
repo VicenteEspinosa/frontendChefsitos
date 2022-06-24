@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
 import React, { useContext, useEffect, useState } from 'react'
+
 import NewUserForm from '../../components/forms/NewUserForm'
 import AuthContext from '../../contexts/auth-context'
 import { NewUserDto } from '../../dtos/user.dto'
@@ -15,10 +16,11 @@ export default function RegisterPage(props: { isMobile: boolean }) {
   async function onAddUserHandler(enteredUserData: NewUserDto) {
     try {
       await UserService.signup(enteredUserData)
-      await UserService.signin({
+      const user =  await UserService.signin({
         username: enteredUserData.username,
         password: enteredUserData.password,
       })
+      authContext.setUser!(user)
       router.push('/')
     } catch (error) {
       if (error instanceof ApiError) {
