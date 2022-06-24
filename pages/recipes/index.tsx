@@ -47,6 +47,7 @@ export default function RecipesPage() {
               >
                 <ToggleButton value="global">Global</ToggleButton>
                 <ToggleButton value="following">Mis seguidos</ToggleButton>
+                <ToggleButton value="random">Receta aleatoria</ToggleButton>
               </ToggleButtonGroup>
             </div>
             {alignment === 'following' ? (
