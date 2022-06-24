@@ -103,6 +103,7 @@ export default function IngredientSelector(props: {
   return (
     <>
       <Autocomplete
+        className="ingredients-field"
         value={ingredientChosen}
         onChange={(event, newValue) => {
           if (typeof newValue === 'string') {

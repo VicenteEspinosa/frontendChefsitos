@@ -41,6 +41,7 @@ export default function LogUserForm(props: {
         <div className={classes.control}>
           <label>Nombre de usuario</label>
           <input
+            className="username-field"
             data-testid="username-field"
             type="text"
             {...register('username')}
@@ -52,6 +53,7 @@ export default function LogUserForm(props: {
         <div className={classes.control}>
           <label>Contraseña</label>
           <input
+            className="password-field"
             data-testid="password-field"
             type="password"
             {...register('password')}
@@ -61,7 +63,9 @@ export default function LogUserForm(props: {
           </div>
         </div>
         <div className={classes.actions}>
-          <button className={classes['form-button']}>Iniciar sesión</button>
+          <button className={`login-button ${classes['form-button']}`}>
+            Iniciar sesión
+          </button>
         </div>
         {props.isMobile && (
           <div className={classes.link}>
