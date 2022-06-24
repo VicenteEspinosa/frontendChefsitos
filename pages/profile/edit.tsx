@@ -7,7 +7,7 @@ import { ApiError } from '../../infrastructure/errors/api.error'
 import { InternalCode } from '../../infrastructure/errors/internal-codes'
 import { useRouter } from 'next/router'
 
-export default function NewRecipePage(props: { isMobile: boolean }) {
+export default function EditProfilePage(props: { isMobile: boolean }) {
   const [usernameIsForbidden, setUsernameIsForbidden] = useState(false)
   const router = useRouter()
   const authContext = useContext(AuthContext)
