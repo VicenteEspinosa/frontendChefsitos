@@ -35,5 +35,6 @@ module.exports = {
     // '/node_modules/',
     '^.+\\.module\\.(css|sass|scss)$',
   ],
-  testTimeout: 10000
+  testTimeout: 10000,
+  globalSetup: '<rootDir>/jest.setup.js'
 }

@@ -15,7 +15,7 @@ describe('login feature', () => {
 
   beforeAll(async () => {
     browser = await puppeteer.launch({
-      // headless: false,
+      headless: process.env.E2E_HEADLESS === 'false' ? false : true,
       executablePath: '/usr/bin/chromium-browser',
     })
     page = await browser.newPage()
