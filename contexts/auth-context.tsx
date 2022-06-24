@@ -12,6 +12,7 @@ interface User {
   last_name: string
   picture_url: string
   description: string
+  is_superuser: boolean
 }
 
 const defaultState = {

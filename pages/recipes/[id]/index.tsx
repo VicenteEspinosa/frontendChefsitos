@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { ApiError } from '../../../infrastructure/errors/api.error'
 
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { RecipeService, Recipe } from '../../../services/recipe.service'
 import { UserService, OtherUser } from '../../../services/user.service'
 import Card from '../../../components/ui/Card'
@@ -13,12 +13,14 @@ import EditIcon from '@mui/icons-material/Edit'
 import Like from '../../../components/recipes/Like'
 import Avatar from '@mui/material/Avatar'
 import FollowUser from '../../../components/users/FollowUser'
+import AuthContext from '../../../contexts/auth-context'
 
 export default function RecipePage() {
   const [recipe, setRecipe] = useState<Recipe | undefined>()
   const [user, setUser] = useState<OtherUser | undefined>()
   const [followers, setFollowers] = useState<number>(0)
   const router = useRouter()
+  const authContext = useContext(AuthContext);
   const { id } = router.query
   useEffect(() => {
     if (typeof id === 'string') {
@@ -98,25 +100,28 @@ export default function RecipePage() {
             <h1>{recipe.name}</h1>
             <div className={classes.actions}>
               <Like recipeId={recipe.id} ratings={recipe.ratings} />
-              <div className={classes['chip-container']}>
-                <Chip
-                  className="delete-button"
-                  label="Borrar Receta"
-                  onClick={handleDelete}
-                  onDelete={handleDelete}
-                  deleteIcon={<DeleteIcon />}
-                  variant="outlined"
-                  color="error"
-                />
-                <Chip
-                  label="Editar Receta"
-                  onClick={handleEdit}
-                  onDelete={handleEdit}
-                  deleteIcon={<EditIcon />}
-                  variant="outlined"
-                  color="info"
-                />
-              </div>
+              { (recipe.user_id === authContext.user?.id || authContext.user?.is_superuser) && (
+                <div className={classes['chip-container']}>
+                  <Chip
+                    className="delete-button"
+                    label="Borrar Receta"
+                    onClick={handleDelete}
+                    onDelete={handleDelete}
+                    deleteIcon={<DeleteIcon />}
+                    variant="outlined"
+                    color="error"
+                  />
+                  <Chip
+                    className="edit-button"
+                    label="Editar Receta"
+                    onClick={handleEdit}
+                    onDelete={handleEdit}
+                    deleteIcon={<EditIcon />}
+                    variant="outlined"
+                    color="info"
+                  />
+                </div>
+              )}
             </div>
           </div>
           <div className="flex">
@@ -170,7 +175,7 @@ export default function RecipePage() {
                   <ul>
                     {recipe.tags.map((tag, index) => (
                       <li key={index}>
-                        <p>{tag.tag_name}</p>
+                        <p className="tag-name">{tag.tag_name}</p>
                       </li>
                     ))}
                   </ul>

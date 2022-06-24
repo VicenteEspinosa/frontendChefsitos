@@ -2,7 +2,6 @@ import '@testing-library/jest-dom'
 
 import { act, render, screen } from '@testing-library/react'
 import Recipes from '../../components/recipes/Recipes'
-import SearchBar from '../../components/ui/SearchBar'
 import { RecipeService } from '../../services/recipe.service'
 
 jest.mock('../../services/recipe.service')

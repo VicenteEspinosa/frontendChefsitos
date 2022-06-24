@@ -7,7 +7,7 @@ describe('rescipes features', () => {
 
   beforeAll(async () => {
     browser = await puppeteer.launch({
-      headless: false,
+      headless: process.env.E2E_HEADLESS === 'false' ? false : true,
       executablePath: '/usr/bin/chromium-browser',
     })
     page = await browser.newPage()
@@ -21,9 +21,33 @@ describe('rescipes features', () => {
       await page.waitForNavigation()
       expect(page.url()).toBe("http://localhost:3000/recipes");
     })
+
+    it('redirects to /recipe/:id', async () => {
+      await page.waitForSelector('.recipe-image', { visible: true })
+      await page.click('.recipe-image')
+      await page.waitForNavigation()
+      expect(page.url()).toContain("http://localhost:3000/recipes/");
+    })
+
+    it('like button works correctly', async () => {
+      await page.waitForSelector('.like-icon', { visible: true })
+      const initialLikes = await page.$eval(".likes-counter", (e) => e.textContent);
+      await page.click('.like-icon')
+      await page.waitForTimeout(1000)
+      const likes = await page.$eval(".likes-counter", (e) => e.textContent);
+      expect(initialLikes).not.toBe(likes);
+    })
+
+    it('dislike button works correctly', async () => {
+      const initialDislikes = await page.$eval(".dislikes-counter", (e) => e.textContent);
+      await page.click('.dislike-icon')
+      await page.waitForTimeout(1000)
+      const dislikes = await page.$eval(".dislikes-counter", (e) => e.textContent);
+      expect(initialDislikes).not.toBe(dislikes);
+    })
   })
 
-  describe('create recipe', () => {
+  describe('create, edit and delete recipe', () => {
     it('redirects to /recipes/new', async () => {
       await page.waitForSelector('.new-recipe-link')
       await page.click('.new-recipe-link')
@@ -56,7 +80,7 @@ describe('rescipes features', () => {
       await page.keyboard.press('Enter');
       await page.type('.quantity-field', '1')
       await page.click('.measurements-field')
-      await page.type('.ingredients-field', 'unidad')
+      await page.type('.measurements-field', 'unidad')
       await page.keyboard.press('ArrowDown');
       await page.keyboard.press('Enter');
       await page.click('.submit-button')
@@ -65,6 +89,25 @@ describe('rescipes features', () => {
       await page.waitForSelector('h1', { visible: true })
       const text = await page.$eval("h1", (e) => e.textContent);
       expect(text).toBe("test-recipe");
+    })
+
+    it('redirects to edit recipe page correctly', async () => {
+      await page.click('.edit-button')
+      await page.waitForNavigation()
+      expect(page.url()).toContain("/edit");
+    })
+
+    it('edit recipe correctly', async () => {
+      await page.waitForSelector('.tags-field', { visible: true })
+      await page.click('.tags-field')
+      await page.type('.tags-field', 'dulce')
+      await page.keyboard.press('ArrowDown');
+      await page.keyboard.press('Enter');
+      await page.click('.submit-button')
+      await page.waitForNavigation()
+      await page.waitForSelector('.tag-name', { visible: true })
+      const text = await page.$eval(".tag-name", (e) => e.textContent);
+      expect(text).toBe("dulce");
     })
 
     it('delete recipe correctly', async () => {

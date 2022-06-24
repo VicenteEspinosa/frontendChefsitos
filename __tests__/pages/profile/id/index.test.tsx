@@ -12,6 +12,7 @@ const mockedUser = {
   last_name: 'Test',
   picture_url: 'https://test.com',
   description: 'A mocked user',
+  is_superuser: false,
 }
 
 const mockRouterPush = jest.fn()
