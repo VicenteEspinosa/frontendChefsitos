@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom'
 
 import { act, render, screen } from '@testing-library/react'
-import NewUserForm from '../../../components/users/NewUserForm'
+import NewUserForm from '../../../components/forms/NewUserForm'
 
 describe('new user form component', () => {
   test('form gets rendered correctly', async () => {
