@@ -128,6 +128,7 @@ export default function Recipes(props: {
               )}
             />
             <CardMedia
+              className="recipe-image"
               onClick={() => {
                 router.push(`/recipes/${recipe.id}`)
               }}

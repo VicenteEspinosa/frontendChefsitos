@@ -7,7 +7,7 @@ describe('rescipes features', () => {
 
   beforeAll(async () => {
     browser = await puppeteer.launch({
-      // headless: false,
+      headless: false,
       executablePath: '/usr/bin/chromium-browser',
     })
     page = await browser.newPage()
@@ -20,6 +20,13 @@ describe('rescipes features', () => {
       await page.click('.recipes-link')
       await page.waitForNavigation()
       expect(page.url()).toBe("http://localhost:3000/recipes");
+    })
+
+    it('redirects to /recipe/:id', async () => {
+      await page.waitForSelector('.recipe-image', { visible: true })
+      await page.click('.recipe-image')
+      await page.waitForNavigation()
+      expect(page.url()).toContain("http://localhost:3000/recipes/");
     })
   })
 
