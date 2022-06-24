@@ -109,6 +109,7 @@ export default function RecipePage() {
                   color="error"
                 />
                 <Chip
+                  className="edit-button"
                   label="Editar Receta"
                   onClick={handleEdit}
                   onDelete={handleEdit}
@@ -170,7 +171,7 @@ export default function RecipePage() {
                   <ul>
                     {recipe.tags.map((tag, index) => (
                       <li key={index}>
-                        <p>{tag.tag_name}</p>
+                        <p className="tag-name">{tag.tag_name}</p>
                       </li>
                     ))}
                   </ul>

@@ -7,7 +7,7 @@ describe('rescipes features', () => {
 
   beforeAll(async () => {
     browser = await puppeteer.launch({
-      headless: false,
+      // headless: false,
       executablePath: '/usr/bin/chromium-browser',
     })
     page = await browser.newPage()
@@ -23,7 +23,7 @@ describe('rescipes features', () => {
     })
   })
 
-  describe('create recipe', () => {
+  describe('create, edit and delete recipe', () => {
     it('redirects to /recipes/new', async () => {
       await page.waitForSelector('.new-recipe-link')
       await page.click('.new-recipe-link')
@@ -56,7 +56,7 @@ describe('rescipes features', () => {
       await page.keyboard.press('Enter');
       await page.type('.quantity-field', '1')
       await page.click('.measurements-field')
-      await page.type('.ingredients-field', 'unidad')
+      await page.type('.measurements-field', 'unidad')
       await page.keyboard.press('ArrowDown');
       await page.keyboard.press('Enter');
       await page.click('.submit-button')
@@ -65,6 +65,25 @@ describe('rescipes features', () => {
       await page.waitForSelector('h1', { visible: true })
       const text = await page.$eval("h1", (e) => e.textContent);
       expect(text).toBe("test-recipe");
+    })
+
+    it('redirects to edit recipe page correctly', async () => {
+      await page.click('.edit-button')
+      await page.waitForNavigation()
+      expect(page.url()).toContain("/edit");
+    })
+
+    it('edit recipe correctly', async () => {
+      await page.waitForSelector('.tags-field', { visible: true })
+      await page.click('.tags-field')
+      await page.type('.tags-field', 'dulce')
+      await page.keyboard.press('ArrowDown');
+      await page.keyboard.press('Enter');
+      await page.click('.submit-button')
+      await page.waitForNavigation()
+      await page.waitForSelector('.tag-name', { visible: true })
+      const text = await page.$eval(".tag-name", (e) => e.textContent);
+      expect(text).toBe("dulce");
     })
 
     it('delete recipe correctly', async () => {

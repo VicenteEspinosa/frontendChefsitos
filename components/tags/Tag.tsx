@@ -56,6 +56,7 @@ export default function TagSelector(props: {
   return (
     <>
       <Autocomplete
+        className="tags-field"
         value={tagChosen ? tagChosen : []}
         onChange={(event: object, value: Tag[] | null, reason: string) => {
           if (reason === 'selectOption' || reason === 'removeOption') {
