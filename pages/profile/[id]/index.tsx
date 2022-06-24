@@ -51,7 +51,10 @@ export default function AnotherProfilePage() {
         </h3>
         <h3>{profileData?.email}</h3>
         <div>{profileData?.description}</div>
-        <Recipes myRecipes={false} userId={profileData?.id} />
+        <Recipes 
+          myRecipes={false} 
+          userId={profileData?.id} 
+        />
       </Card>
     </>
   )
