@@ -3,6 +3,7 @@ import { ApiError } from '../../../infrastructure/errors/api.error'
 
 import { useEffect, useState } from 'react'
 import { RecipeService, Recipe } from '../../../services/recipe.service'
+import { UserService, OtherUser } from '../../../services/user.service'
 import Card from '../../../components/ui/Card'
 import classes from '../RecipePage.module.css'
 import { InternalCode } from '../../../infrastructure/errors/internal-codes'
@@ -10,9 +11,13 @@ import Chip from '@mui/material/Chip'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import Like from '../../../components/recipes/Like'
+import Avatar from '@mui/material/Avatar'
+import FollowUser from '../../../components/users/FollowUser'
 
 export default function RecipePage() {
   const [recipe, setRecipe] = useState<Recipe | undefined>()
+  const [user, setUser] = useState<OtherUser | undefined>()
+  const [followers, setFollowers] = useState<number>(0)
   const router = useRouter()
   const { id } = router.query
   useEffect(() => {
@@ -20,6 +25,18 @@ export default function RecipePage() {
       getRecipe(parseInt(id))
     }
   }, [id])
+
+  useEffect(() => {
+    if (user) {
+      setFollowers(user?.followers.length)
+    }
+  }, [user])
+
+  useEffect(() => {
+    if (recipe) {
+      getUser(recipe.user_id)
+    }
+  }, [recipe])
 
   async function handleDelete() {
     try {
@@ -42,6 +59,22 @@ export default function RecipePage() {
       try {
         const resRecipe = await RecipeService.get(id)
         setRecipe(resRecipe)
+      } catch (error) {
+        if (error instanceof ApiError) {
+          if (error.internalCode == InternalCode.AuthError) {
+            router.push('/login')
+          }
+        }
+        console.log(error)
+      }
+    }
+  }
+
+  const getUser = async (id: number) => {
+    if (id) {
+      try {
+        const resUser = await UserService.get(id)
+        setUser(resUser)
       } catch (error) {
         if (error instanceof ApiError) {
           if (error.internalCode == InternalCode.AuthError) {
@@ -97,6 +130,34 @@ export default function RecipePage() {
               </div>
             )}
             <div className={classes.information}>
+              <div className={classes['user-info']}>
+                <div className={classes['user-info-avatar-username']}>
+                  <div className={classes['user-avatar']}>
+                    <Avatar
+                      alt={user?.first_name}
+                      src={user?.picture_url}
+                      className={classes.avatar}
+                    />
+                  </div>
+                  <h2
+                    onClick={() => {
+                      router.push(`/profile/${user?.id}`)
+                    }}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    {user?.first_name} {user?.last_name}
+                  </h2>
+                </div>
+                <div className={classes['user-follow']}>
+                  <h3>{followers} seguidores</h3>
+                  <FollowUser
+                    following={user?.is_following}
+                    userId={user?.id}
+                    onFollow={() => setFollowers(followers + 1)}
+                    onUnfollow={() => setFollowers(followers - 1)}
+                  />
+                </div>
+              </div>
               {recipe.description && (
                 <>
                   <h2> Descripción</h2>

@@ -20,6 +20,9 @@ jest.mock('next/router', () => ({
 }))
 
 describe('recipe page', () => {
+  beforeEach(() => {
+    jest.spyOn(console, 'log').mockImplementation(() => undefined)
+  })
   test('displays recipe when user is logged in', async () => {
     const recipe = {
       id: 1,
@@ -44,7 +47,6 @@ describe('recipe page', () => {
     expect(screen.getByText('test recipe')).toBeInTheDocument()
     expect(screen.getByText('this is a test recipe')).toBeInTheDocument()
   })
-
   test('router.push is called when user is not logged in', async () => {
     mockedRecipeService.get.mockImplementation(() => {
       throw new ApiError({ internalCode: InternalCode.AuthError })

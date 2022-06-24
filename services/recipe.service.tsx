@@ -33,7 +33,7 @@ interface Ingredients {
   quantity: number
 }
 
-interface Tag {
+export interface Tag {
   tag_id: number
   tag_name: string
   tag_placeholder_url: string
@@ -67,6 +67,15 @@ async function get(recipeId: number) {
   return BaseService.request(
     pathPrefix,
     `${recipeId}/`,
+    BaseService.RequestMethod.Get,
+    ''
+  )
+}
+
+async function following_feed() {
+  return BaseService.request(
+    pathPrefix,
+    'feed/following/',
     BaseService.RequestMethod.Get,
     ''
   )
@@ -121,6 +130,15 @@ async function deleteRate(recipeId: number) {
   )
 }
 
+async function get_chef_recipes(userId: number) {
+  return BaseService.request(
+    pathPrefix,
+    `chef/${userId}/`,
+    BaseService.RequestMethod.Get,
+    ''
+  )
+}
+
 const recipeArraySubject = new BehaviorSubject(
   process.browser && JSON.parse(localStorage.getItem('recipeArray') || '{}')
 )
@@ -139,4 +157,6 @@ export const RecipeService = {
   feed,
   rate,
   deleteRate,
+  get_chef_recipes,
+  following_feed,
 }

@@ -44,3 +44,35 @@
   display: flex;
   width: 400px;
 }
+
+.user-info {
+  color: white;
+  padding: 2%;
+  display: flex;
+  flex-direction: column;
+  background-color: #77002e;
+  border-radius: 15px;
+  align-items: center;
+}
+
+.user-avatar {
+  margin-right: 10px;
+}
+
+.user-info-avatar-username {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.user-follow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}

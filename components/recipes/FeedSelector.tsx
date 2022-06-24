@@ -16,8 +16,8 @@ export default function FeedSelector(props: {
     <Box sx={{ maxWidth: 300, alignItems: 'center' }}>
       <FormControl fullWidth>
         <Select value={value} onChange={handleChange}>
-          <MenuItem value={1}>Popularidad</MenuItem>
           <MenuItem value={0}>Mas recientes</MenuItem>
+          <MenuItem value={1}>Popularidad</MenuItem>
         </Select>
       </FormControl>
     </Box>

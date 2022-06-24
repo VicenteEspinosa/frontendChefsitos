@@ -2,10 +2,16 @@ import '@testing-library/jest-dom'
 
 import { act, render, screen } from '@testing-library/react'
 import Recipes from '../../components/recipes/Recipes'
+import SearchBar from '../../components/ui/SearchBar'
 import { RecipeService } from '../../services/recipe.service'
 
 jest.mock('../../services/recipe.service')
 const mockedRecipeService = RecipeService as jest.Mocked<typeof RecipeService>
+
+jest.mock('../../components/ui/SearchBar', () => {
+  const SearchBar = () => <div>SearchBar Mock</div>
+  return SearchBar
+})
 
 describe('recipes component', () => {
   mockedRecipeService.myRecipes.mockResolvedValue([
@@ -19,6 +25,7 @@ describe('recipes component', () => {
       created_at: Date.now(),
       updated_at: Date.now(),
       ratings: [],
+      tags: [],
     },
     {
       id: 2,
@@ -30,6 +37,7 @@ describe('recipes component', () => {
       created_at: Date.now(),
       updated_at: Date.now(),
       ratings: [],
+      tags: [],
     },
   ])
 
