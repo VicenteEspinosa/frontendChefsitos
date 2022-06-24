@@ -1,11 +1,11 @@
 .mapCards {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    width: 100%;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  width: 100%;
 }
 
 .card {
-    width: 400px;
-    margin: 20px;
+  width: 400px;
+  margin: 20px;
 }

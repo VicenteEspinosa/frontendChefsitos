@@ -11,12 +11,13 @@ import AuthContext from '../../contexts/auth-context'
 import classes from './Recipe.module.css'
 import { useRouter } from 'next/router'
 import Like from './Like'
-import SearchBar from '../ui/SearchBar';
+import SearchBar from '../ui/SearchBar'
 
 export default function Recipes(props: {
   myRecipes?: boolean
   orderByPopularity?: boolean
   userId?: number
+  feedAlignment?: string
 }) {
   const [data, setData] = useState([] as Recipe[])
   const [tagIds, setTagIds] = useState<number[]>([])
@@ -26,18 +27,19 @@ export default function Recipes(props: {
 
   useEffect(() => {
     getList()
-  }, [props.orderByPopularity, props.userId])
+  }, [props.orderByPopularity, props.userId, props.feedAlignment])
 
   useEffect(() => {
     let filterResult = []
     if (tagIds.length === 0) {
       filterResult = data
     } else {
-      filterResult = data.filter((recipe: Recipe) => recipe.tags.some(tag => tagIds.includes(tag.tag_id)))
+      filterResult = data.filter((recipe: Recipe) =>
+        recipe.tags.some((tag) => tagIds.includes(tag.tag_id))
+      )
     }
     setFilteredRecipes(filterResult)
   }, [data, tagIds])
-
 
   const getList = async () => {
     const preload = RecipeService.recipeArrayValue
@@ -57,12 +59,18 @@ export default function Recipes(props: {
       let recipesArray = []
       if (props.myRecipes) {
         recipesArray = await RecipeService.myRecipes()
+      } else if (props.feedAlignment === 'following') {
+        recipesArray = await RecipeService.following_feed()
       } else if (!props.myRecipes && props.userId == null) {
-        recipesArray = await RecipeService.feed(props.orderByPopularity ? 'popularity' : undefined)
+        recipesArray = await RecipeService.feed(
+          props.orderByPopularity ? 'popularity' : undefined
+        )
       } else if (!props.myRecipes && props.userId == user?.id) {
         recipesArray = await RecipeService.myRecipes()
       } else {
-        recipesArray = await RecipeService.get_chef_recipes(props.userId as number)
+        recipesArray = await RecipeService.get_chef_recipes(
+          props.userId as number
+        )
       }
       if (recipesArray) {
         return recipesArray
@@ -80,7 +88,7 @@ export default function Recipes(props: {
   return (
     <div>
       <div className={classes.tags}>
-        <SearchBar 
+        <SearchBar
           initialValues={tagIds}
           onSelectionChange={handleSearchBarChange}
         />
@@ -93,10 +101,10 @@ export default function Recipes(props: {
               maxWidth: 345,
               backgroundColor: 'rgb(165, 95, 8)',
               color: 'white',
-          }}
-          key={recipe.id}
-          className={classes.card}
-        >
+            }}
+            key={recipe.id}
+            className={classes.card}
+          >
             <CardHeader
               avatar={
                 <Avatar
@@ -110,11 +118,14 @@ export default function Recipes(props: {
               }
               title={recipe.name}
               sx={{ color: 'white', textTransform: 'capitalize' }}
-              subheader={new Date(recipe.created_at).toLocaleDateString('es-ES', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })}
+              subheader={new Date(recipe.created_at).toLocaleDateString(
+                'es-ES',
+                {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                }
+              )}
             />
             <CardMedia
               onClick={() => {
