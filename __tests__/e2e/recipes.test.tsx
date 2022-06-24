@@ -28,6 +28,23 @@ describe('rescipes features', () => {
       await page.waitForNavigation()
       expect(page.url()).toContain("http://localhost:3000/recipes/");
     })
+
+    it('like button works correctly', async () => {
+      await page.waitForSelector('.like-icon', { visible: true })
+      const initialLikes = await page.$eval(".likes-counter", (e) => e.textContent);
+      await page.click('.like-icon')
+      await page.waitForTimeout(1000)
+      const likes = await page.$eval(".likes-counter", (e) => e.textContent);
+      expect(initialLikes).not.toBe(likes);
+    })
+
+    it('dislike button works correctly', async () => {
+      const initialDislikes = await page.$eval(".dislikes-counter", (e) => e.textContent);
+      await page.click('.dislike-icon')
+      await page.waitForTimeout(1000)
+      const dislikes = await page.$eval(".dislikes-counter", (e) => e.textContent);
+      expect(initialDislikes).not.toBe(dislikes);
+    })
   })
 
   describe('create, edit and delete recipe', () => {

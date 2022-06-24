@@ -84,13 +84,13 @@ export default function Like(props: { recipeId: number; ratings: Rating[] }) {
   return (
     <CardActions disableSpacing>
       <IconButton aria-label="like" onClick={likeHandle}>
-        <ThumbUpIcon sx={{ color: like ? '#445c8f' : '#ccc' }} />
+        <ThumbUpIcon className="like-icon" sx={{ color: like ? '#445c8f' : '#ccc' }} />
       </IconButton>
-      <div>{likes}</div>
+      <div className='likes-counter'>{likes}</div>
       <IconButton aria-label="dislike" onClick={dislikeHandle}>
-        <ThumbDownIcon sx={{ color: like === false ? '#445c8f' : '#ccc' }} />
+        <ThumbDownIcon className="dislike-icon" sx={{ color: like === false ? '#445c8f' : '#ccc' }} />
       </IconButton>
-      <div>{dislikes}</div>
+      <div className='dislikes-counter'>{dislikes}</div>
     </CardActions>
   )
 }
